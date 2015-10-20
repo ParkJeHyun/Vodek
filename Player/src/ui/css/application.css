@@ -1,0 +1,55 @@
+.root{
+	-fx-background-color:#282828;
+}
+
+.bar{
+	-fx-background-color:#3E3E3E;
+}
+
+.textbar{
+	-fx-background-color:#505050;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+    -fx-effect: dropshadow( gaussian, rgba(255,255,255,0.5), 0,0,0,1)
+}
+
+.listview{
+	-fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #909090;
+    -fx-effect: dropshadow( gaussian, rgba(255,255,255,0.5), 0,0,0,1)
+}
+
+.texttitle {
+    -fx-background-color: #e8e8e8;
+    -fx-border-color: #282828;
+    -fx-border-width: 1px ;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-text-fill: #000000;
+}
+
+.textbody {
+    -fx-border-width: 1px ;
+    -fx-border-color: #282828;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-text-fill: #000000;
+}
+
+.textarea *.text{
+	-fx-background-color:#282828;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-text-fill: #909090;
+    -fx-effect: dropshadow( gaussian, rgba(255,255,255,0.5), 0,0,0,1)
+}
+
+.add-button {
+    -fx-background-image : url('../img/Plus.png');
+    -fx-background-size : cover;
+}

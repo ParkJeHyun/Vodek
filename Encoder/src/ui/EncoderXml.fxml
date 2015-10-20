@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+          styleClass="root" stylesheets="@css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="ui.Controller">
+
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" percentHeight="70.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" percentHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="root" stylesheets="@./css/application.css">
+         <center>
+            <ListView fx:id="lvInputFileList" prefHeight="200.0" prefWidth="200.0" styleClass="listview" stylesheets="@./css/application.css" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets top="1.0" />
+               </BorderPane.margin></ListView>
+         </center>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <top>
+            <ToolBar prefHeight="40.0" prefWidth="200.0" styleClass="bar" stylesheets="@./css/application.css" BorderPane.alignment="CENTER">
+              <items>
+                  <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#addBtnEventListener" text="Add" />
+                  <Button fx:id="btnPlay" mnemonicParsing="false" onAction="#playBtnEventListener" text="Play" />
+                  <Button fx:id="btnStop" mnemonicParsing="false" text="Stop" />
+              </items>
+            </ToolBar>
+         </top>
+      </BorderPane>
+      <BorderPane prefHeight="200.0" prefWidth="300.0" GridPane.columnIndex="1">
+         <top>
+            <TextField editable="false" prefHeight="40.0" styleClass="textbar" stylesheets="@./css/application.css" text="결과 파일" BorderPane.alignment="CENTER" />
+         </top>
+         <center>
+            <ListView fx:id="lvOutputFileList" prefHeight="200.0" prefWidth="200.0" styleClass="listview" stylesheets="@./css/application.css" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets top="1.0" />
+               </BorderPane.margin></ListView>
+         </center>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </BorderPane>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+         <top>
+            <TextField editable="false" prefHeight="40.0" styleClass="textbar" stylesheets="@./css/application.css" text="LOGCAT" BorderPane.alignment="CENTER" />
+         </top>
+         <center>
+            <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textarea" stylesheets="@./css/application.css" BorderPane.alignment="CENTER" />
+         </center>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </BorderPane>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" >
+         <top>
+            <TextField editable="false" prefHeight="40.0" styleClass="textbar" stylesheets="@./css/application.css" text="파일 정보" BorderPane.alignment="CENTER" />
+         </top>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <center>
+            <GridPane BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="35.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="65.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField alignment="CENTER" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="texttitle" stylesheets="@./css/application.css" text="파 일 명">
+                     <cursor>
+                        <Cursor fx:constant="NONE" />
+                     </cursor>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <padding>
+                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                     </padding></TextField>
+                  <TextField alignment="CENTER" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="texttitle" stylesheets="@./css/application.css" text="재생 시간" GridPane.rowIndex="1">
+                     <cursor>
+                        <Cursor fx:constant="NONE" />
+                     </cursor>
+                     <padding>
+                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                     </padding></TextField>
+                  <TextField alignment="CENTER" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="texttitle" stylesheets="@./css/application.css" text="용량" GridPane.rowIndex="2">
+                     <cursor>
+                        <Cursor fx:constant="NONE" />
+                     </cursor>
+                     <padding>
+                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                     </padding></TextField>
+                  <TextField fx:id="tfFilename" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1">
+                     <cursor>
+                        <Cursor fx:constant="NONE" />
+                     </cursor>
+                     <padding>
+                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                     </padding></TextField>
+                  <TextField fx:id="tfFiletime" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <cursor>
+                        <Cursor fx:constant="NONE" />
+                     </cursor>
+                     <padding>
+                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                     </padding></TextField>
+                  <TextField fx:id="tfFilesize" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <cursor>
+                        <Cursor fx:constant="NONE" />
+                     </cursor>
+                     <padding>
+                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                     </padding></TextField>
+               </children>
+            </GridPane>
+         </center>
+      </BorderPane>
+   </children>
+</GridPane>

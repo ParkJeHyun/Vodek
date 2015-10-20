@@ -1,0 +1,15 @@
+/*
+Encoder Toolbar CSS
+*/
+
+.add-btn {
+	-fx-graphic: url('./icons/add.png');
+}
+
+.play-btn{
+	-fx-graphic: url('../icons/play.png');
+}
+
+.stop-btn{
+	-fx-graphic: url('./icons/stop.png');
+}
