@@ -54,13 +54,20 @@ public class MainController {
     private static MediaPlayer player;
     private Duration duration;
     private static int currentFile;
-    private MediaPlayer.Status playStatus;
+    private static MediaPlayer.Status playStatus;
+
+    private static int listSelected;
+
+    public static String eventFromPlayList;
+    public static WaitEvent wating;
 
     private boolean isMaxmize;
     private double nowWidth;
     private double nowHeight;
     private double nowLocateX;
     private double nowLocateY;
+    private double defaltStageWidth;
+    private double defaltStageHeight;
 
     private double pastVolume;
     private boolean voulmeBtnFlag;
@@ -77,13 +84,18 @@ public class MainController {
     private Stage playListStage;
 
     @FXML public void initialize(){
+        eventFromPlayList = "none";
+        wating = new WaitEvent();
+
         openFileList = new ArrayList<File>();
+        listSelected = -1;
         this.voulmeBtnFlag = false;
         this.searchFlag = false;
         this.isMaxmize = false;
         this.currentFile = 0;
         this.playStatus = MediaPlayer.Status.READY;
         this.playController = PlayController.getInstance();
+
         settingRootPane();
         settingIvEvnet();
         if(this.playListController == null) {
@@ -97,8 +109,14 @@ public class MainController {
         }
     }
 
+    public void run(){
+
+    }
+
     public void setStage(Stage stage){
         this.stage = stage;
+        this.defaltStageWidth = stage.getWidth();
+        this.defaltStageHeight = stage.getHeight();
     }
 
     public void exitBtnEventListener(ActionEvent event){
@@ -162,27 +180,55 @@ public class MainController {
             this.playStatus = MediaPlayer.Status.PAUSED;
             return;
         }
-        else {
+        else if(playStatus == MediaPlayer.Status.STOPPED || playStatus == MediaPlayer.Status.READY){
             if (!openFileExist()) {
                 //Open File not Exist
                 openBtnEventListener();
             } else {
                 //Open File Exist
-                player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
-                setPlayer();
-                reSizeWindow(openFileList.get(currentFile));
+                if(listSelected != -1){
+                    player = new MediaPlayer(new Media(openFileList.get(listSelected).toURI().toString()));
+                    setPlayer();
+                    reSizeWindow(openFileList.get(listSelected));
 
-                player.setAutoPlay(true);
-                this.playStatus = player.getStatus();
-                this.mvPlay.setMediaPlayer(player);
+                    player.setAutoPlay(true);
+                    playStatus = MediaPlayer.Status.PLAYING;
+                    this.mvPlay.setMediaPlayer(player);
+                }
+                else {
+                    player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
+                    setPlayer();
+                    reSizeWindow(openFileList.get(currentFile));
+
+                    player.setAutoPlay(true);
+                    playStatus = MediaPlayer.Status.PLAYING;
+                    this.mvPlay.setMediaPlayer(player);
+                }
             }
         }
+//        else {
+//            if (!openFileExist()) {
+//                //Open File not Exist
+//                openBtnEventListener();
+//            } else {
+//                //Open File Exist
+//                player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
+//                setPlayer();
+//                reSizeWindow(openFileList.get(currentFile));
+//
+//                player.setAutoPlay(true);
+//                playStatus = MediaPlayer.Status.PLAYING;
+//                this.mvPlay.setMediaPlayer(player);
+//            }
+//        }
     }
 
     public void stopBtnEventListener(ActionEvent event){
         if(this.playStatus == MediaPlayer.Status.PLAYING){
             this.playStatus = MediaPlayer.Status.STOPPED;
             player.stop();
+            this.stage.setWidth(defaltStageWidth);
+            this.stage.setHeight(defaltStageHeight);
         }
     }
 
@@ -311,16 +357,16 @@ public class MainController {
         List<File> openFile = filechooser.showOpenMultipleDialog(this.stage);
 
         if(openFile != null) {
-            this.openFileList = new ArrayList<File>(openFile);
+            openFileList = new ArrayList<File>(openFile);
         }
-        if(this.openFileList.size()!=0) {
+        if(openFileList.size()!=0) {
             //File open success
-            this.currentFile = 0;
+            currentFile = 0;
             player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
             setPlayer();
             reSizeWindow(openFile.get(currentFile));
             player.setAutoPlay(true);
-            this.playStatus = MediaPlayer.Status.PLAYING;
+            playStatus = MediaPlayer.Status.PLAYING;
             this.mvPlay.setMediaPlayer(player);
         }
 
@@ -400,7 +446,7 @@ public class MainController {
     public static List<String> getPlayListName(){
         List<String> playListName = new ArrayList<String>();
         for(int i=0;i<openFileList.size();i++){
-            playListName.add(openFileList.get(i).getName().split("[.]")[0]);
+            playListName.add(openFileList.get(i).getName());
         }
 
         return playListName;
@@ -435,14 +481,44 @@ public class MainController {
     public static void deleteFIleList(List<String> deleteList){
         for(int i=0;i<deleteList.size();i++){
             int openSize = openFileList.size();
-            for(int j=0;j<openSize;j++){
-                if(openFileList.get(j).getName().split("[.]")[0].equals(deleteList.get(i))){
+            for (int j =0;j<openSize;j++){
+                if(openFileList.get(j).getName().equals(deleteList.get(i))){
                     openFileList.remove(j);
-                    if(j==currentFile){
-                        player.stop();
-                    }
+//                    if(j==currentFile){
+//                        player.stop();
+//                    }
                     break;
                 }
+            }
+        }
+    }
+
+    public static void playFileInList(String selectedItem){
+        int openSize = openFileList.size();
+        for(int j=0;j<openSize;j++){
+            if(openFileList.get(j).getName().equals(selectedItem)){
+                if(playStatus == MediaPlayer.Status.PLAYING){
+                    player.stop();
+                }
+                currentFile = j;
+                wating.run();
+                break;
+            }
+        }
+
+    }
+
+    public static void setListSelected(String selectedItem){
+        if(selectedItem.equals("!@#$")){
+            listSelected = -1;
+            return;
+        }
+        int openSize = openFileList.size();
+        for(int j=0;j<openSize;j++){
+            if(openFileList.get(j).getName().equals(selectedItem)){
+                listSelected = j;
+                wating.run();
+                break;
             }
         }
     }
@@ -501,6 +577,25 @@ public class MainController {
             } else {
                 return String.format("%02d:%02d", elapsedMinutes,
                         elapsedSeconds);
+            }
+        }
+    }
+
+    private class WaitEvent implements Runnable{
+
+        @Override
+        public void run() {
+            if(eventFromPlayList.equals("twoClick")){
+                if(playStatus == MediaPlayer.Status.PLAYING){
+                    player.stop();
+                    playStatus = MediaPlayer.Status.STOPPED;
+                }
+                player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
+                setPlayer();
+                reSizeWindow(openFileList.get(currentFile));
+                player.setAutoPlay(true);
+                playStatus = MediaPlayer.Status.PLAYING;
+                mvPlay.setMediaPlayer(player);
             }
         }
     }

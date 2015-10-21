@@ -38,9 +38,28 @@ public class PlayListController {
     private double yOffset;
     private Stage stage;
 
+    private final int ROW_HEIGHT = 15;
+
     @FXML public void initialize() {
         Parent root;
         settingRootPane();
+        lvPlayList.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(event.getClickCount() == 1){
+                    if(lvPlayList.getSelectionModel().getSelectedItem() == null){
+                        MainController.setListSelected("!@#$");
+                    }
+                    MainController.eventFromPlayList = "oneClick";
+                    MainController.setListSelected((String) lvPlayList.getSelectionModel().getSelectedItem());
+
+                }
+                if(event.getClickCount() == 2){
+                    MainController.eventFromPlayList = "twoClick";
+                    MainController.playFileInList((String)lvPlayList.getSelectionModel().getSelectedItem());
+                }
+            }
+        });
     }
 
     public void setStage(Stage stage){
@@ -59,7 +78,9 @@ public class PlayListController {
             System.out.println(playNameList.size());
             this.lvPlayList.setEditable(false);
             this.lvPlayList.setItems(playNameList);
+            this.lvPlayList.setPrefHeight(playNameList.size() * ROW_HEIGHT + 2);
         }
+
     }
 
     public void listAddBtnEventListener(ActionEvent event){
@@ -106,6 +127,10 @@ public class PlayListController {
     private void setFileChooserExtensionFilter(FileChooser filechooser){
         FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Video Files","*.mp4","*.avi");
         filechooser.getExtensionFilters().add(filter);
+    }
+
+    public String getSelectedFileName(){
+        return (String)lvPlayList.getSelectionModel().getSelectedItem();
     }
 
     public void closePlayList(){
