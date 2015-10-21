@@ -49,7 +49,10 @@
     -fx-effect: dropshadow( gaussian, rgba(255,255,255,0.5), 0,0,0,1)
 }
 
-.add-button {
-    -fx-background-image : url('../img/Plus.png');
+.search-button {
+    -fx-focus-color: #505050;
+    -fx-background-insets: 0, 0, 0, 0;
+    fx-background-color:#505050;
+    -fx-background-image : url('../img/ic_action_search_gray.png');
     -fx-background-size : cover;
 }

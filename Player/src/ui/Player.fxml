@@ -9,6 +9,10 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainController">
     <top>
         <GridPane fx:id="gpWindow" styleClass="bar" stylesheets="@css/application.css" BorderPane.alignment="CENTER" >
@@ -115,29 +119,30 @@
                                         </Button>
                                     </children>
                                     <GridPane.margin>
-                                        <Insets top="2.0" left="5.0"/>
+                                        <Insets top="2.0" left="5.0" bottom="5.0" />
                                     </GridPane.margin>
                                 </HBox>
                                 <HBox alignment="TOP_RIGHT" styleClass="bar" stylesheets="@css/application.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                     <children>
-                                        <Button fx:id="btOpen" mnemonicParsing="false" onAction="#openBtnEventListener" text="+">
+                                        <ImageView fx:id="ivList" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@img/List.png" />
+                                            </image>
                                             <HBox.margin>
-                                                <Insets right="2.0" />
+                                                <Insets left="5.0" right="5.0" />
                                             </HBox.margin>
-                                        </Button>
-                                        <Button mnemonicParsing="false" onAction="#listBtnEventListener" text="L">
+                                        </ImageView>
+                                        <ImageView fx:id="ivSearch" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                            <image>
+                                                <Image url="@img/search_icon.png" />
+                                            </image>
                                             <HBox.margin>
-                                                <Insets left="2.0" right="2.0" />
+                                                <Insets left="5.0" right="5.0" />
                                             </HBox.margin>
-                                        </Button>
-                                        <Button mnemonicParsing="false" onAction="#searchBtnEventListener" text="F">
-                                            <HBox.margin>
-                                                <Insets left="2.0" />
-                                            </HBox.margin>
-                                        </Button>
+                                        </ImageView>
                                     </children>
                                     <GridPane.margin>
-                                        <Insets top="2.0" right="5.0"/>
+                                        <Insets top="2.0" right="5.0" bottom="5.0" />
                                     </GridPane.margin>
                                 </HBox>
                                 <HBox prefHeight="100.0" prefWidth="200.0" styleClass="bar" stylesheets="@css/application.css" GridPane.hgrow="ALWAYS">
