@@ -6,12 +6,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.*?>
-<?import ui.bootstrap.css.*?>
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+          styleClass="root" stylesheets="@css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="ui.Controller">
 
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
@@ -110,21 +111,21 @@
                      <padding>
                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                      </padding></TextField>
-                  <TextField fx:id="tfFileName" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1">
+                  <TextField fx:id="tfFilename" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1">
                      <cursor>
                         <Cursor fx:constant="NONE" />
                      </cursor>
                      <padding>
                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                      </padding></TextField>
-                  <TextField fx:id="tfFileTime" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="tfFiletime" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <cursor>
                         <Cursor fx:constant="NONE" />
                      </cursor>
                      <padding>
                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                      </padding></TextField>
-                  <TextField fx:id="tfFileSize" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <TextField fx:id="tfFilesize" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <cursor>
                         <Cursor fx:constant="NONE" />
                      </cursor>

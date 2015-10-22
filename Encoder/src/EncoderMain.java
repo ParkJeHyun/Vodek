@@ -18,7 +18,6 @@ public class EncoderMain extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
         try {
             Parent root = FXMLLoader.load(getClass().getResource("ui/EncoderXml.fxml"));
             primaryStage.setTitle("Vodek-Encoder");

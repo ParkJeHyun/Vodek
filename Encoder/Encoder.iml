@@ -8,25 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jave-1.0.2" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/edu/sphinx4-core-1.0-20150630.174404-9.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/edu/sphinx4-data-1.0-20150630.174256-9.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="jar://$MODULE_DIR$/edu/sphinx4-data-1.0-20150630.174256-9.jar!/" recursive="false" />
-      </library>
-    </orderEntry>
     <orderEntry type="library" name="sphinx4-core-1.0-20150630.174404-9" level="project" />
     <orderEntry type="library" name="sphinx4-data-1.0-20150630.174256-9" level="project" />
   </component>

@@ -4,6 +4,8 @@ import controller.PlayController;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -109,14 +111,21 @@ public class MainController {
         }
     }
 
-    public void run(){
-
-    }
-
-    public void setStage(Stage stage){
+    public void setStage(final Stage stage){
         this.stage = stage;
         this.defaltStageWidth = stage.getWidth();
         this.defaltStageHeight = stage.getHeight();
+
+        this.stage.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+                mvPlay.setFitWidth(newSceneWidth.doubleValue());
+            }
+        });
+        this.stage.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+                mvPlay.setFitHeight(newSceneHeight.doubleValue()-gpControl.getHeight()-gpWindow.getHeight());
+            }
+        });
     }
 
     public void exitBtnEventListener(ActionEvent event){
@@ -189,7 +198,7 @@ public class MainController {
                 if(listSelected != -1){
                     player = new MediaPlayer(new Media(openFileList.get(listSelected).toURI().toString()));
                     setPlayer();
-                    reSizeWindow(openFileList.get(listSelected));
+                    reSizeWindow(this.playController.getVideowidthHeight(openFileList.get(currentFile)));
 
                     player.setAutoPlay(true);
                     playStatus = MediaPlayer.Status.PLAYING;
@@ -198,7 +207,7 @@ public class MainController {
                 else {
                     player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
                     setPlayer();
-                    reSizeWindow(openFileList.get(currentFile));
+                    reSizeWindow(this.playController.getVideowidthHeight(openFileList.get(currentFile)));
 
                     player.setAutoPlay(true);
                     playStatus = MediaPlayer.Status.PLAYING;
@@ -364,7 +373,7 @@ public class MainController {
             currentFile = 0;
             player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
             setPlayer();
-            reSizeWindow(openFile.get(currentFile));
+            reSizeWindow(this.playController.getVideowidthHeight(openFile.get(currentFile)));
             player.setAutoPlay(true);
             playStatus = MediaPlayer.Status.PLAYING;
             this.mvPlay.setMediaPlayer(player);
@@ -430,9 +439,9 @@ public class MainController {
         });
     }
 
-    private void reSizeWindow(File currentFile){
+    private void reSizeWindow(String size){
         Media media = player.getMedia();
-        String widthAndHeight = this.playController.getVideowidthHeight(currentFile);
+        String widthAndHeight = size;
         double width = Double.parseDouble(widthAndHeight.split("[#]")[0]);
         double height = Double.parseDouble(widthAndHeight.split("[#]")[1]);
         this.stage.setWidth(width+10.0d);
@@ -581,6 +590,11 @@ public class MainController {
         }
     }
 
+    public static void getPlayListEvent(String event){
+        eventFromPlayList = event;
+        wating.run();
+    }
+
     private class WaitEvent implements Runnable{
 
         @Override
@@ -592,7 +606,7 @@ public class MainController {
                 }
                 player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
                 setPlayer();
-                reSizeWindow(openFileList.get(currentFile));
+                reSizeWindow(playController.getVideowidthHeight(openFileList.get(currentFile)));
                 player.setAutoPlay(true);
                 playStatus = MediaPlayer.Status.PLAYING;
                 mvPlay.setMediaPlayer(player);

@@ -168,7 +168,7 @@
                                 </HBox>
                             </children>
                         </GridPane>
-                        <MediaView fx:id="mvPlay" fitHeight="200.0" fitWidth="200.0">
+                        <MediaView fx:id="mvPlay" fitHeight="200.0" fitWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                             <GridPane.margin>
                                 <Insets left="5.0" right="5.0" />
                             </GridPane.margin>

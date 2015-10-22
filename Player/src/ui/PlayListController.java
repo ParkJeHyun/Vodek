@@ -16,6 +16,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -39,6 +41,7 @@ public class PlayListController {
     private Stage stage;
 
     private final int ROW_HEIGHT = 15;
+
 
     @FXML public void initialize() {
         Parent root;
@@ -136,5 +139,6 @@ public class PlayListController {
     public void closePlayList(){
         btExit.fire();
     }
+
 
 }
