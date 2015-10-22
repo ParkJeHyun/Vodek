@@ -12,6 +12,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -49,6 +50,7 @@ public class MainController {
     @FXML private Button btPlay;
     @FXML private ImageView ivSearch;
     @FXML private ImageView ivList;
+    @FXML private ImageView ivVolume;
 
     private Light.Distant enterLight;
     private Light.Distant defaultLight;
@@ -74,6 +76,7 @@ public class MainController {
     private double pastVolume;
     private boolean voulmeBtnFlag;
     private static ArrayList<File> openFileList;
+
     private boolean searchFlag;
     private PlayController playController;
     private PlayListController playListController;
@@ -117,13 +120,15 @@ public class MainController {
         this.defaltStageHeight = stage.getHeight();
 
         this.stage.widthProperty().addListener(new ChangeListener<Number>() {
-            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
                 mvPlay.setFitWidth(newSceneWidth.doubleValue());
             }
         });
         this.stage.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
-                mvPlay.setFitHeight(newSceneHeight.doubleValue()-gpControl.getHeight()-gpWindow.getHeight());
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight) {
+                mvPlay.setFitHeight(newSceneHeight.doubleValue() - gpControl.getHeight() - gpWindow.getHeight());
             }
         });
     }
@@ -171,9 +176,11 @@ public class MainController {
 
         this.ivList.setEffect(new Lighting(defaultLight));
         this.ivSearch.setEffect(new Lighting(defaultLight));
+        this.ivVolume.setEffect(new Lighting(defaultLight));
 
         setSearchEvent();
         setListEvent();
+        setVolumeEvent();
     }
 
     public void playBtnEventListener(ActionEvent event){
@@ -261,6 +268,48 @@ public class MainController {
             currentRate -= 0.1d;
             player.setRate(currentRate);
         }
+    }
+
+    public void setVolumeEvent(){
+        this.ivVolume.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivVolume.setEffect(new Lighting(enterLight));
+            }
+        });
+        this.ivVolume.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivVolume.setEffect(new Lighting(defaultLight));
+            }
+        });
+        this.ivVolume.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(voulmeBtnFlag){
+                    voulmeBtnFlag = false;
+                    if(player!=null) {
+                        player.setMute(false);
+                    }
+                    ivVolume.setImage(new Image("/ui/img/volume_icon.png"));
+//            Image img = new Image(getClass().getResourceAsStream("not.png"));
+//            btVolume.setGraphic(new ImageView(img));
+                }
+                else {
+                    voulmeBtnFlag = true;
+                    pastVolume = sdVolume.getValue();
+                    if(player!=null) {
+                        player.setMute(false);
+                    }
+                    ivVolume.setFitWidth(20.0);
+                    ivVolume.setFitHeight(20.0);
+                    ivVolume.setImage(new Image("/ui/img/mute_icon.png"));
+//            Image img = new Image(getClass().getResourceAsStream("not.png"));
+//            btVolume.setGraphic(new ImageView(img));
+                }
+                event.consume();
+            }
+        });
     }
 
     public void volumeBtnEventListener(ActionEvent event){
@@ -518,10 +567,6 @@ public class MainController {
     }
 
     public static void setListSelected(String selectedItem){
-        if(selectedItem.equals("!@#$")){
-            listSelected = -1;
-            return;
-        }
         int openSize = openFileList.size();
         for(int j=0;j<openSize;j++){
             if(openFileList.get(j).getName().equals(selectedItem)){

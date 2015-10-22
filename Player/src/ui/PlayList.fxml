@@ -21,13 +21,6 @@
          </BorderPane.margin>
       </Button>
    </top>
-   <center>
-      <ListView fx:id="lvPlayList" styleClass="root" stylesheets="@css/application.css" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </BorderPane.margin>
-      </ListView>
-   </center>
    <bottom>
       <HBox alignment="TOP_RIGHT" prefHeight="20.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -37,11 +30,14 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
          <children>
-            <Button mnemonicParsing="false" text = "+" onAction="#listAddBtnEventListener" >
+            <ImageView fx:id="ivAdd" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/add_icon.png" />
+               </image>
                <HBox.margin>
-                  <Insets right="5.0" />
+                  <Insets left="5.0" right="5.0" />
                </HBox.margin>
-            </Button>
+            </ImageView>
             <Button mnemonicParsing="false" onAction="#listDeleteBtnEventListener" text="-">
                <HBox.margin>
                   <Insets left="5.0" />
@@ -50,4 +46,23 @@
          </children>
       </HBox>
    </bottom>
+   <center>
+      <GridPane styleClass="root" stylesheets="@css/application.css" BorderPane.alignment="TOP_CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ListView fx:id="lvPlayList" styleClass="root" stylesheets="@css/application.css" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </padding>
+      </GridPane>
+   </center>
 </BorderPane>

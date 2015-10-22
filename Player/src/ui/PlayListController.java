@@ -14,10 +14,14 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -35,17 +39,22 @@ public class PlayListController {
     @FXML private ListView lvPlayList;
     @FXML private Button btExit;
     @FXML private BorderPane playList;
+    @FXML private ImageView ivAdd;
+
+    private Light.Distant enterLight;
+    private Light.Distant defaultLight;
 
     private double xOffset;
     private double yOffset;
     private Stage stage;
 
-    private final int ROW_HEIGHT = 15;
+    private final int ROW_HEIGHT = 21;
 
 
     @FXML public void initialize() {
         Parent root;
         settingRootPane();
+        settingIvEvnet();
         lvPlayList.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -65,8 +74,59 @@ public class PlayListController {
         });
     }
 
+    public void settingIvEvnet(){
+        this.enterLight = new Light.Distant();
+        this.enterLight.setColor(new Color(1.0,1.0,0.0,1.0));
+
+        this.defaultLight = new Light.Distant();
+        this.defaultLight.setColor(new Color(1.0,1.0,1.0,1.0));
+
+        this.ivAdd.setEffect(new Lighting(defaultLight));
+
+        setAddEvent();
+    }
+
     public void setStage(Stage stage){
         this.stage = stage;
+    }
+
+    public void setAddEvent(){
+        this.ivAdd.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivAdd.setEffect(new Lighting(enterLight));
+            }
+        });
+        this.ivAdd.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivAdd.setEffect(new Lighting(defaultLight));
+            }
+        });
+        this.ivAdd.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                List<File> addFileList;
+                String path = System.getProperty("user.dir");
+                File dir = new File(path);
+                FileChooser filechooser = new FileChooser();
+                filechooser.setTitle("Open Video Files");
+                filechooser.setInitialDirectory(dir);
+                setFileChooserExtensionFilter(filechooser);
+                addFileList = filechooser.showOpenMultipleDialog(stage.getScene().getWindow());
+                if(addFileList!=null) {
+                    //File open success
+                    MainController.addOpenFileList(addFileList);
+                    ObservableList<String> playNameList = FXCollections.observableList(MainController.getPlayListName());
+                    lvPlayList.setPrefHeight(playNameList.size() * ROW_HEIGHT + 2);
+                    lvPlayList.setMinHeight(playNameList.size() * ROW_HEIGHT + 2);
+                    lvPlayList.setMaxHeight(playNameList.size() * ROW_HEIGHT + 2);
+                    lvPlayList.setEditable(false);
+                    lvPlayList.setItems(playNameList);
+                }
+                event.consume();
+            }
+        });
     }
 
     public void exitBtnEventListener(ActionEvent event){
@@ -79,9 +139,12 @@ public class PlayListController {
         if(MainController.openFileExist()) {
             ObservableList<String> playNameList = FXCollections.observableList(MainController.getPlayListName());
             System.out.println(playNameList.size());
+            this.lvPlayList.setPrefHeight(playNameList.size() * ROW_HEIGHT + 2);
+            this.lvPlayList.setMinHeight(playNameList.size() * ROW_HEIGHT + 2);
+            this.lvPlayList.setMaxHeight(playNameList.size() * ROW_HEIGHT + 2);
             this.lvPlayList.setEditable(false);
             this.lvPlayList.setItems(playNameList);
-            this.lvPlayList.setPrefHeight(playNameList.size() * ROW_HEIGHT + 2);
+
         }
 
     }
@@ -100,6 +163,10 @@ public class PlayListController {
             //File open success
             MainController.addOpenFileList(addFileList);
             ObservableList<String> playNameList = FXCollections.observableList(MainController.getPlayListName());
+            this.lvPlayList.setPrefHeight(playNameList.size() * ROW_HEIGHT + 2);
+            this.lvPlayList.setMinHeight(playNameList.size() * ROW_HEIGHT + 2);
+            this.lvPlayList.setMaxHeight(playNameList.size() * ROW_HEIGHT + 2);
+            this.lvPlayList.setEditable(false);
             this.lvPlayList.setItems(playNameList);
         }
     }
