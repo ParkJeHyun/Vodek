@@ -1,15 +1,9 @@
 package ui;
 
-import controller.PlayController;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -19,17 +13,12 @@ import javafx.scene.effect.Lighting;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * Created by Administrator on 2015-10-20.
@@ -40,6 +29,8 @@ public class PlayListController {
     @FXML private Button btExit;
     @FXML private BorderPane playList;
     @FXML private ImageView ivAdd;
+    @FXML private ImageView ivExit;
+    @FXML private ImageView ivMinus;
 
     private Light.Distant enterLight;
     private Light.Distant defaultLight;
@@ -58,17 +49,17 @@ public class PlayListController {
         lvPlayList.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(event.getClickCount() == 1){
-                    if(lvPlayList.getSelectionModel().getSelectedItem() == null){
+                if (event.getClickCount() == 1) {
+                    if (lvPlayList.getSelectionModel().getSelectedItem() == null) {
                         MainController.setListSelected("!@#$");
                     }
                     MainController.eventFromPlayList = "oneClick";
                     MainController.setListSelected((String) lvPlayList.getSelectionModel().getSelectedItem());
 
                 }
-                if(event.getClickCount() == 2){
+                if (event.getClickCount() == 2) {
                     MainController.eventFromPlayList = "twoClick";
-                    MainController.playFileInList((String)lvPlayList.getSelectionModel().getSelectedItem());
+                    MainController.playFileInList((String) lvPlayList.getSelectionModel().getSelectedItem());
                 }
             }
         });
@@ -79,15 +70,43 @@ public class PlayListController {
         this.enterLight.setColor(new Color(1.0,1.0,0.0,1.0));
 
         this.defaultLight = new Light.Distant();
-        this.defaultLight.setColor(new Color(1.0,1.0,1.0,1.0));
+        this.defaultLight.setColor(new Color(1.0, 1.0, 1.0, 1.0));
 
         this.ivAdd.setEffect(new Lighting(defaultLight));
+        this.ivExit.setEffect(new Lighting(defaultLight));
+        this.ivMinus.setEffect(new Lighting(defaultLight));
 
         setAddEvent();
+        setExitEvent();
+        setMinusEvent();
     }
 
     public void setStage(Stage stage){
         this.stage = stage;
+    }
+
+    public void setExitEvent(){
+        this.ivExit.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Light light = new Light.Distant();
+                light.setColor(new Color(1.0,1.0,1.0,0.4));
+                ivExit.setEffect(new Lighting(light));
+            }
+        });
+        this.ivExit.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivExit.setEffect(new Lighting(defaultLight));
+            }
+        });
+        this.ivExit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stage.close();
+                event.consume();
+            }
+        });
     }
 
     public void setAddEvent(){
@@ -114,7 +133,7 @@ public class PlayListController {
                 filechooser.setInitialDirectory(dir);
                 setFileChooserExtensionFilter(filechooser);
                 addFileList = filechooser.showOpenMultipleDialog(stage.getScene().getWindow());
-                if(addFileList!=null) {
+                if (addFileList != null) {
                     //File open success
                     MainController.addOpenFileList(addFileList);
                     ObservableList<String> playNameList = FXCollections.observableList(MainController.getPlayListName());
@@ -129,9 +148,28 @@ public class PlayListController {
         });
     }
 
-    public void exitBtnEventListener(ActionEvent event){
-        Stage stage = (Stage)btExit.getScene().getWindow();
-        stage.hide();
+    public void setMinusEvent(){
+        this.ivMinus.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivMinus.setEffect(new Lighting(enterLight));
+            }
+        });
+        this.ivMinus.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivMinus.setEffect(new Lighting(defaultLight));
+            }
+        });
+        this.ivMinus.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                List<String> selectedList = lvPlayList.getSelectionModel().getSelectedItems();
+                MainController.deleteFIleList(selectedList);
+                lvPlayList.setItems(FXCollections.observableList(MainController.getPlayListName()));
+                event.consume();
+            }
+        });
     }
 
     public void setPlayList(){
@@ -146,35 +184,6 @@ public class PlayListController {
             this.lvPlayList.setItems(playNameList);
 
         }
-
-    }
-
-    public void listAddBtnEventListener(ActionEvent event){
-        List<File> addFileList;
-        Node node = (Node) event.getSource();
-        String path = System.getProperty("user.dir");
-        File dir = new File(path);
-        FileChooser filechooser = new FileChooser();
-        filechooser.setTitle("Open Video Files");
-        filechooser.setInitialDirectory(dir);
-        setFileChooserExtensionFilter(filechooser);
-        addFileList = filechooser.showOpenMultipleDialog(node.getScene().getWindow());
-        if(addFileList!=null) {
-            //File open success
-            MainController.addOpenFileList(addFileList);
-            ObservableList<String> playNameList = FXCollections.observableList(MainController.getPlayListName());
-            this.lvPlayList.setPrefHeight(playNameList.size() * ROW_HEIGHT + 2);
-            this.lvPlayList.setMinHeight(playNameList.size() * ROW_HEIGHT + 2);
-            this.lvPlayList.setMaxHeight(playNameList.size() * ROW_HEIGHT + 2);
-            this.lvPlayList.setEditable(false);
-            this.lvPlayList.setItems(playNameList);
-        }
-    }
-
-    public void listDeleteBtnEventListener(ActionEvent event){
-        List<String> selectedList = this.lvPlayList.getSelectionModel().getSelectedItems();
-        MainController.deleteFIleList(selectedList);
-        this.lvPlayList.setItems(FXCollections.observableList(MainController.getPlayListName()));
     }
 
     private void settingRootPane(){
@@ -199,12 +208,8 @@ public class PlayListController {
         filechooser.getExtensionFilters().add(filter);
     }
 
-    public String getSelectedFileName(){
-        return (String)lvPlayList.getSelectionModel().getSelectedItem();
-    }
-
     public void closePlayList(){
-        btExit.fire();
+        stage.close();
     }
 
 

@@ -15,11 +15,14 @@
 
 <BorderPane fx:id="playList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="200.0" styleClass="bar" stylesheets="@css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.PlayListController">
    <top>
-      <Button fx:id="btExit" alignment="CENTER" mnemonicParsing="false" onAction="#exitBtnEventListener" text="X" BorderPane.alignment="TOP_RIGHT">
-         <BorderPane.margin>
-            <Insets right="5.0" top="5.0" />
-         </BorderPane.margin>
-      </Button>
+       <ImageView BorderPane.alignment="TOP_RIGHT" fx:id="ivExit" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+           <image>
+               <Image url="@img/exit_icon.png" />
+           </image>
+           <BorderPane.margin>
+               <Insets top="5.0" right="5.0" />
+           </BorderPane.margin>
+       </ImageView>
    </top>
    <bottom>
       <HBox alignment="TOP_RIGHT" prefHeight="20.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -38,11 +41,14 @@
                   <Insets left="5.0" right="5.0" />
                </HBox.margin>
             </ImageView>
-            <Button mnemonicParsing="false" onAction="#listDeleteBtnEventListener" text="-">
-               <HBox.margin>
-                  <Insets left="5.0" />
-               </HBox.margin>
-            </Button>
+             <ImageView fx:id="ivMinus" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                 <image>
+                     <Image url="@img/minus_icon.png" />
+                 </image>
+                 <HBox.margin>
+                     <Insets left="5.0" right="5.0" />
+                 </HBox.margin>
+             </ImageView>
          </children>
       </HBox>
    </bottom>

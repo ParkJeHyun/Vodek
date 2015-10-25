@@ -33,24 +33,29 @@ public class MainController {
     @FXML private BorderPane rootPane;
     //Window part
     @FXML private GridPane gpWindow;
-    @FXML private Button btExit;
-    @FXML private Button btMaximize;
-    @FXML private Button btMinimize;
+    @FXML private ImageView ivMinimize;
+    @FXML private ImageView ivMaximize;
+    @FXML private ImageView ivExit;
     //Center
     @FXML private GridPane gpRoot;
     @FXML private MediaView mvPlay;
     //Bottom Controller
     @FXML private GridPane gpControl;
     @FXML private Slider sdVolume;
-    @FXML private Button btVolume;
-    @FXML private Button btOpen;
     @FXML private Label lbCurrent;
     @FXML private Label lbEnd;
     @FXML private Slider sdTime;
     @FXML private Button btPlay;
-    @FXML private ImageView ivSearch;
+    @FXML private ImageView ivSearchTab;
     @FXML private ImageView ivList;
     @FXML private ImageView ivVolume;
+    @FXML private ImageView ivPlay;
+    @FXML private ImageView ivStop;
+    @FXML private ImageView ivFast;
+    @FXML private ImageView ivSlow;
+    //Search
+    @FXML private ImageView ivSearch;
+
 
     private Light.Distant enterLight;
     private Light.Distant defaultLight;
@@ -131,143 +136,280 @@ public class MainController {
                 mvPlay.setFitHeight(newSceneHeight.doubleValue() - gpControl.getHeight() - gpWindow.getHeight());
             }
         });
+
+        gpWindow.setPrefWidth(stage.getWidth());
+        rootPane.setPrefWidth(stage.getWidth());
+        gpRoot.getColumnConstraints().get(0).setPrefWidth(stage.getWidth());
+        gpRoot.getColumnConstraints().get(1).setMaxWidth(0.0);//Width(0.0);
     }
 
-    public void exitBtnEventListener(ActionEvent event){
-        Stage stage = (Stage)btExit.getScene().getWindow();
-        if(this.playListStage!=null && this.playListStage.isShowing()) {
-            this.playListController.closePlayList();
-        }
-        stage.close();
+    public void setExitEvent(){
+        this.ivExit.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Light light = new Light.Distant();
+                light.setColor(new Color(0.5,0.0,0.0,1.0));
+                ivExit.setEffect(new Lighting(light));
+            }
+        });
+        this.ivExit.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivExit.setEffect(new Lighting(defaultLight));
+            }
+        });
+        this.ivExit.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (playListStage != null && playListStage.isShowing()) {
+                    playListController.closePlayList();
+                }
+                stage.close();
+                event.consume();
+            }
+        });
     }
 
-    public void maximizeBtnEventListener(ActionEvent event){
-        Stage stage = (Stage)btMaximize.getScene().getWindow();
-        if(isMaxmize){
-            isMaxmize = false;
-            stage.setX(nowLocateX);
-            stage.setY(nowLocateY);
-            stage.setWidth(nowWidth);
-            stage.setHeight(nowHeight);
-            stage.setMaximized(false);
-        }
-        else {
-            isMaxmize = true;
-            nowWidth = stage.getWidth();
-            nowHeight = stage.getHeight();
-            nowLocateX = stage.getX();
-            nowLocateY = stage.getY();
+    public void setMaximizeEvent(){
+        this.ivMaximize.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Light light = new Light.Distant();
+                light.setColor(new Color(1.0, 1.0, 1.0, 0.6));
+                ivMaximize.setEffect(new Lighting(light));
+            }
+        });
+        this.ivMaximize.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivMaximize.setEffect(new Lighting(defaultLight));
+            }
+        });
+        this.ivMaximize.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(isMaxmize){
+                    isMaxmize = false;
+                    stage.setX(nowLocateX);
+                    stage.setY(nowLocateY);
+                    stage.setWidth(nowWidth);
+                    stage.setHeight(nowHeight);
+                    stage.setMaximized(false);
+                }
+                else {
+                    isMaxmize = true;
+                    nowWidth = stage.getWidth();
+                    nowHeight = stage.getHeight();
+                    nowLocateX = stage.getX();
+                    nowLocateY = stage.getY();
 
-            stage.setMaximized(true);
-        }
+                    stage.setMaximized(true);
+                }
+                event.consume();
+            }
+        });
     }
 
-    public void minimizeBtnEventListener(ActionEvent event){
-        Stage stage = (Stage)btMinimize.getScene().getWindow();
-        stage.setIconified(true);
+    public void setMinimizeEvent(){
+        this.ivMinimize.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Light light = new Light.Distant();
+                light.setColor(new Color(1.0,1.0,1.0,0.6));
+                ivMinimize.setEffect(new Lighting(light));
+            }
+        });
+        this.ivMinimize.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivMinimize.setEffect(new Lighting(defaultLight));
+            }
+        });
+        this.ivMinimize.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stage.setIconified(true);
+                event.consume();
+            }
+        });
     }
 
     public void settingIvEvnet(){
         this.enterLight = new Light.Distant();
-        this.enterLight.setColor(new Color(1.0,1.0,0.0,1.0));
+        this.enterLight.setColor(new Color(0.0,1.0,0.0,1.0));
 
         this.defaultLight = new Light.Distant();
         this.defaultLight.setColor(new Color(1.0,1.0,1.0,1.0));
 
         this.ivList.setEffect(new Lighting(defaultLight));
-        this.ivSearch.setEffect(new Lighting(defaultLight));
+        this.ivSearchTab.setEffect(new Lighting(defaultLight));
         this.ivVolume.setEffect(new Lighting(defaultLight));
+        this.ivPlay.setEffect(new Lighting(defaultLight));
+        this.ivStop.setEffect(new Lighting(defaultLight));
+        this.ivFast.setEffect(new Lighting(defaultLight));
+        this.ivSlow.setEffect(new Lighting(defaultLight));
+        this.ivExit.setEffect(new Lighting(defaultLight));
+        this.ivMaximize.setEffect(new Lighting(defaultLight));
+        this.ivMinimize.setEffect(new Lighting(defaultLight));
 
+        setMinimizeEvent();
+        setMaximizeEvent();
+        setExitEvent();
         setSearchEvent();
         setListEvent();
         setVolumeEvent();
+        setPlayEvent();
+        setStopEvent();
+        setSlowEvent();
+        setFastEvent();
     }
 
-    public void playBtnEventListener(ActionEvent event){
-        if(playStatus == MediaPlayer.Status.PAUSED ){
-            //Click PauseButton
-            player.play();
-            this.playStatus = MediaPlayer.Status.PLAYING;
-            return;
-        }
-        else if(playStatus == MediaPlayer.Status.PLAYING){
-            //Click PlayButton
-            player.pause();
-            this.playStatus = MediaPlayer.Status.PAUSED;
-            return;
-        }
-        else if(playStatus == MediaPlayer.Status.STOPPED || playStatus == MediaPlayer.Status.READY){
-            if (!openFileExist()) {
-                //Open File not Exist
-                openBtnEventListener();
-            } else {
-                //Open File Exist
-                if(listSelected != -1){
-                    player = new MediaPlayer(new Media(openFileList.get(listSelected).toURI().toString()));
-                    setPlayer();
-                    reSizeWindow(this.playController.getVideowidthHeight(openFileList.get(currentFile)));
-
-                    player.setAutoPlay(true);
+    public void setPlayEvent(){
+        this.ivPlay.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivPlay.setEffect(new Lighting(enterLight));
+            }
+        });
+        this.ivPlay.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivPlay.setEffect(new Lighting(defaultLight));
+            }
+        });
+        this.ivPlay.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(playStatus == MediaPlayer.Status.PAUSED ){
+                    //Click PauseButton
+                    ivPlay.setImage(new Image("ui/img/play_icon.png"));
+                    player.play();
                     playStatus = MediaPlayer.Status.PLAYING;
-                    this.mvPlay.setMediaPlayer(player);
+                    return;
                 }
-                else {
-                    player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
-                    setPlayer();
-                    reSizeWindow(this.playController.getVideowidthHeight(openFileList.get(currentFile)));
-
-                    player.setAutoPlay(true);
-                    playStatus = MediaPlayer.Status.PLAYING;
-                    this.mvPlay.setMediaPlayer(player);
+                else if(playStatus == MediaPlayer.Status.PLAYING){
+                    //Click PlayButton
+                    ivPlay.setImage(new Image("ui/img/pause_icon.png"));
+                    player.pause();
+                    playStatus = MediaPlayer.Status.PAUSED;
+                    return;
                 }
+                else if(playStatus == MediaPlayer.Status.STOPPED || playStatus == MediaPlayer.Status.READY){
+                    if (!openFileExist()) {
+                        //Open File not Exist
+                        openBtnEventListener();
+                    } else {
+                        //Open File Exist
+                        if(listSelected != -1){
+                            player = new MediaPlayer(new Media(openFileList.get(listSelected).toURI().toString()));
+                            setPlayer();
+                            reSizeWindow(playController.getVideowidthHeight(openFileList.get(currentFile)));
+
+                            player.setAutoPlay(true);
+                            playStatus = MediaPlayer.Status.PLAYING;
+                            ivPlay.setImage(new Image("ui/img/pause_icon.png"));
+                            mvPlay.setMediaPlayer(player);
+                        }
+                        else {
+                            player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
+                            setPlayer();
+                            reSizeWindow(playController.getVideowidthHeight(openFileList.get(currentFile)));
+
+                            player.setAutoPlay(true);
+                            playStatus = MediaPlayer.Status.PLAYING;
+                            ivPlay.setImage(new Image("ui/img/pause_icon.png"));
+                            mvPlay.setMediaPlayer(player);
+                        }
+                    }
+                }
+                event.consume();
             }
-        }
-//        else {
-//            if (!openFileExist()) {
-//                //Open File not Exist
-//                openBtnEventListener();
-//            } else {
-//                //Open File Exist
-//                player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
-//                setPlayer();
-//                reSizeWindow(openFileList.get(currentFile));
-//
-//                player.setAutoPlay(true);
-//                playStatus = MediaPlayer.Status.PLAYING;
-//                this.mvPlay.setMediaPlayer(player);
-//            }
-//        }
+        });
     }
 
-    public void stopBtnEventListener(ActionEvent event){
-        if(this.playStatus == MediaPlayer.Status.PLAYING){
-            this.playStatus = MediaPlayer.Status.STOPPED;
-            player.stop();
-            this.stage.setWidth(defaltStageWidth);
-            this.stage.setHeight(defaltStageHeight);
-        }
+    public void setStopEvent(){
+        this.ivStop.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivStop.setEffect(new Lighting(enterLight));
+            }
+        });
+        this.ivStop.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivStop.setEffect(new Lighting(defaultLight));
+            }
+        });
+        this.ivStop.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(playStatus == MediaPlayer.Status.PLAYING){
+                    playStatus = MediaPlayer.Status.STOPPED;
+                    player.stop();
+                    ivPlay.setImage(new Image("ui/img/pause_icon.png"));
+                    stage.setWidth(defaltStageWidth);
+                    stage.setHeight(defaltStageHeight);
+                }
+                event.consume();
+            }
+        });
     }
 
-    public void fastBtnEventListener(ActionEvent event){
-        if(this.playStatus == MediaPlayer.Status.PLAYING){
-            double currentRate = player.getRate();
-            if(currentRate > 1.5){
-                return;
+    public void setFastEvent(){
+        this.ivFast.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivFast.setEffect(new Lighting(enterLight));
             }
-            currentRate += 0.1d;
-            player.setRate(currentRate);
-        }
+        });
+        this.ivFast.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivFast.setEffect(new Lighting(defaultLight));
+            }
+        });
+        this.ivFast.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(playStatus == MediaPlayer.Status.PLAYING){
+                    double currentRate = player.getRate();
+                    if(currentRate > 1.5){
+                        return;
+                    }
+                    currentRate += 0.1d;
+                    player.setRate(currentRate);
+                }
+                event.consume();
+            }
+        });
     }
-
-    public void slowBtnEventListener(ActionEvent event){
-        if(this.playStatus == MediaPlayer.Status.PLAYING){
-            double currentRate = player.getRate();
-            if(currentRate < 0.8){
-                return;
+    public void setSlowEvent(){
+        this.ivSlow.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivSlow.setEffect(new Lighting(enterLight));
             }
-            currentRate -= 0.1d;
-            player.setRate(currentRate);
-        }
+        });
+        this.ivSlow.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivSlow.setEffect(new Lighting(defaultLight));
+            }
+        });
+        this.ivSlow.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(playStatus == MediaPlayer.Status.PLAYING){
+                    double currentRate = player.getRate();
+                    if(currentRate < 0.8){
+                        return;
+                    }
+                    currentRate -= 0.1d;
+                    player.setRate(currentRate);
+                }
+                event.consume();
+            }
+        });
     }
 
     public void setVolumeEvent(){
@@ -312,22 +454,6 @@ public class MainController {
         });
     }
 
-    public void volumeBtnEventListener(ActionEvent event){
-        if(this.voulmeBtnFlag){
-            this.voulmeBtnFlag = false;
-            player.setMute(false);
-//            Image img = new Image(getClass().getResourceAsStream("not.png"));
-//            btVolume.setGraphic(new ImageView(img));
-        }
-        else {
-            this.voulmeBtnFlag = true;
-            this.pastVolume = this.sdVolume.getValue();
-            player.setMute(true);
-//            Image img = new Image(getClass().getResourceAsStream("not.png"));
-//            btVolume.setGraphic(new ImageView(img));
-        }
-    }
-
     public void setListEvent(){
         this.ivList.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
@@ -367,35 +493,37 @@ public class MainController {
     }
 
     public void setSearchEvent(){
-        this.ivSearch.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        this.ivSearchTab.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivSearch.setEffect(new Lighting(enterLight));
+                ivSearchTab.setEffect(new Lighting(enterLight));
             }
         });
-        this.ivSearch.setOnMouseExited(new EventHandler<MouseEvent>() {
+        this.ivSearchTab.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivSearch.setEffect(new Lighting(defaultLight));
+                ivSearchTab.setEffect(new Lighting(defaultLight));
             }
         });
-        this.ivSearch.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        this.ivSearchTab.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 searchFlag = !searchFlag;
                 double width = stage.getWidth();
 
                 if(searchFlag) {
-                    stage.setWidth(width * 10 / 7 + 1.0d);
+                    stage.setWidth(width + 200.0d);
                     rootPane.setPrefWidth(stage.getWidth());
-                    gpRoot.getColumnConstraints().get(0).setPercentWidth(70.0);
-                    gpRoot.getColumnConstraints().get(1).setPercentWidth(30.0);
-                }
-                else{
-                    stage.setWidth((width - 1.0d) * 7 / 10);
+                    gpRoot.getColumnConstraints().get(0).setPrefWidth(stage.getWidth() - 220.0d);
+                    gpRoot.getColumnConstraints().get(1).setPrefWidth(210.0d);
+                    gpRoot.getColumnConstraints().get(1).setMaxWidth(210.0d);
+                } else{
+                    stage.setWidth(width - 200.0d);
+                    gpWindow.setPrefWidth(stage.getWidth());
                     rootPane.setPrefWidth(stage.getWidth());
-                    gpRoot.getColumnConstraints().get(0).setPercentWidth(100.0);
-                    gpRoot.getColumnConstraints().get(1).setPercentWidth(0.0);
+                    //gpRoot.getColumnConstraints().get(0).setPercentWidth(100.0);
+                    gpRoot.getColumnConstraints().get(0).setPrefWidth(stage.getWidth());
+                    gpRoot.getColumnConstraints().get(1).setPrefWidth(0.0);
                 }
                 event.consume();
             }
@@ -425,6 +553,7 @@ public class MainController {
             reSizeWindow(this.playController.getVideowidthHeight(openFile.get(currentFile)));
             player.setAutoPlay(true);
             playStatus = MediaPlayer.Status.PLAYING;
+            ivPlay.setImage(new Image("ui/img/pause_icon.png"));
             this.mvPlay.setMediaPlayer(player);
         }
 
@@ -647,6 +776,7 @@ public class MainController {
             if(eventFromPlayList.equals("twoClick")){
                 if(playStatus == MediaPlayer.Status.PLAYING){
                     player.stop();
+                    ivPlay.setImage(new Image("ui/img/pause_icon.png"));
                     playStatus = MediaPlayer.Status.STOPPED;
                 }
                 player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
