@@ -169,10 +169,13 @@
                      </cursor></TextField>
                     </top>
                     <center>
-                        <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textarea" stylesheets="@./css/application.css" BorderPane.alignment="CENTER">
+                        <TextArea fx:id="taLog" editable="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" styleClass="textarea" stylesheets="@./css/application.css" BorderPane.alignment="CENTER">
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
-                     </cursor></TextArea>
+                     </cursor>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding></TextArea>
                     </center>
                     <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -192,7 +195,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </padding>
                     <center>
-                        <GridPane BorderPane.alignment="CENTER">
+                        <GridPane styleClass="root" stylesheets="@css/application.css" BorderPane.alignment="CENTER">
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="35.0" prefWidth="100.0" />
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="65.0" prefWidth="100.0" />
@@ -208,7 +211,7 @@
                                         <Cursor fx:constant="DEFAULT" />
                                     </cursor>
                                     <GridPane.margin>
-                                        <Insets />
+                                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
                                     </GridPane.margin>
                                     <padding>
                                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
@@ -217,37 +220,52 @@
                                     <cursor>
                                         <Cursor fx:constant="DEFAULT" />
                                     </cursor>
-                                    <padding>
-                                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                                    </padding></TextField>
+                           <GridPane.margin>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </GridPane.margin>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding></TextField>
                                 <TextField alignment="CENTER" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="texttitle" stylesheets="@./css/application.css" text="용량" GridPane.rowIndex="2">
                                     <cursor>
                                         <Cursor fx:constant="DEFAULT" />
                                     </cursor>
                                     <padding>
                                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                                    </padding></TextField>
+                                    </padding>
+                           <GridPane.margin>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </GridPane.margin></TextField>
                                 <TextField fx:id="tfFilename" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1">
                                     <cursor>
                                         <Cursor fx:constant="DEFAULT" />
                                     </cursor>
                                     <padding>
                                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                                    </padding></TextField>
+                                    </padding>
+                           <GridPane.margin>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </GridPane.margin></TextField>
                                 <TextField fx:id="tfFiletime" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                     <cursor>
                                         <Cursor fx:constant="DEFAULT" />
                                     </cursor>
                                     <padding>
                                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                                    </padding></TextField>
+                                    </padding>
+                           <GridPane.margin>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </GridPane.margin></TextField>
                                 <TextField fx:id="tfFilesize" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                     <cursor>
                                         <Cursor fx:constant="DEFAULT" />
                                     </cursor>
                                     <padding>
                                         <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                                    </padding></TextField>
+                                    </padding>
+                           <GridPane.margin>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </GridPane.margin></TextField>
                             </children>
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />

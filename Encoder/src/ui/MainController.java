@@ -46,6 +46,7 @@ public class MainController {
     @FXML ImageView ivPlay;
     @FXML ImageView ivAdd;
     @FXML ImageView ivMinus;
+    @FXML TextArea taLog;
 
     private Stage stage;
     private double xOffset;
@@ -301,17 +302,20 @@ public class MainController {
         });
         this.ivPlay.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent event) {
+            public void handle(MouseEvent event){
+                taLog.setText("");
                 videoController = VideoController.getInstance();
                 convertWTT = ConvertWTT.getInstance();
                 for (int i = 0; i < inputFileList.size(); i++) {
                     if (inputFileList.get(i).getFlag()) {
+                        taLog.appendText(inputFileList.get(i).getFile().getName() + " Start\n");
                         videoController.extractAudio(inputFileList.get(i).getFile());
-                        try {
-                            convertWTT.waveToText(inputFileList.get(i).getFile().getPath().replace(inputFileList.get(i).getFile().getName(), "") + inputFileList.get(i).getFile().getName().split("[.]")[0]);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+//                        try {
+//                            convertWTT.waveToText(inputFileList.get(i).getFile().getPath().replace(inputFileList.get(i).getFile().getName(), "") + inputFileList.get(i).getFile().getName().split("[.]")[0]);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+                        taLog.appendText(inputFileList.get(i).getFile().getName() + " Complete\n");
                     }
                 }
                 event.consume();
