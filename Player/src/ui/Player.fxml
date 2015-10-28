@@ -203,19 +203,16 @@
                             </GridPane.margin>
                         </MediaView>
                     </children>
+                    <BorderPane.margin>
+                        <Insets left="5.0" />
+                    </BorderPane.margin>
                 </GridPane>
-                <GridPane styleClass="bar" stylesheets="@css/application.css" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="0.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" percentHeight="85.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <children>
-                        <HBox prefHeight="100.0" prefWidth="0.0" GridPane.hgrow="ALWAYS">
+
+                <BorderPane styleClass="bar" stylesheets="@css/application.css" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                    <top>
+                        <HBox prefHeight="50.0" prefWidth="0.0" GridPane.hgrow="ALWAYS">
                             <children>
-                                <TextField HBox.hgrow="ALWAYS" />
+                                <TextField fx:id="tfKeyword" HBox.hgrow="ALWAYS" />
                                 <ImageView fx:id="ivSearch" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@img/search_icon.png" />
@@ -225,20 +222,34 @@
                                     </HBox.margin>
                                 </ImageView>
                             </children>
-                            <GridPane.margin>
+                            <BorderPane.margin>
                                 <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
-                            </GridPane.margin>
+                            </BorderPane.margin>
                         </HBox>
-                        <ListView prefHeight="200.0" prefWidth="0.0" GridPane.rowIndex="1">
-                            <GridPane.margin>
+                    </top>
+                    <center>
+                        <GridPane BorderPane.alignment="TOP_CENTER">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <ListView fx:id="lvResult" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
+                            </children>
+                            <BorderPane.margin>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
-                            </GridPane.margin>
-                        </ListView>
-                    </children>
+                            </BorderPane.margin>
+                            <padding>
+                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            </padding>
+                        </GridPane>
+                    </center>
                     <GridPane.margin>
                         <Insets left="1.0" />
                     </GridPane.margin>
-                </GridPane>
+                </BorderPane>
             </children>
         </GridPane>
     </center>

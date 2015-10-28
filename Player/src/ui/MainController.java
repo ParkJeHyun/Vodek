@@ -1,13 +1,17 @@
 package ui;
 
 import controller.PlayController;
+import controller.ScriptData;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.*;
 import javafx.fxml.*;
+import javafx.geometry.Insets;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.effect.Light;
@@ -21,6 +25,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.stage.*;
+import javafx.util.Callback;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -55,7 +60,8 @@ public class MainController {
     @FXML private ImageView ivSlow;
     //Search
     @FXML private ImageView ivSearch;
-
+    @FXML private TextField tfKeyword;
+    @FXML private ListView lvResult;
 
     private Light.Distant enterLight;
     private Light.Distant defaultLight;
@@ -93,6 +99,8 @@ public class MainController {
     private Stage stage;
     private Stage playListStage;
 
+    private ArrayList<ScriptData> searchResultSet;
+
     @FXML public void initialize(){
         eventFromPlayList = "none";
         wating = new WaitEvent();
@@ -105,9 +113,10 @@ public class MainController {
         this.currentFile = 0;
         this.playStatus = MediaPlayer.Status.READY;
         this.playController = PlayController.getInstance();
+        this.searchResultSet = new ArrayList<ScriptData>();
 
         settingRootPane();
-        settingIvEvnet();
+
         if(this.playListController == null) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("ui/PlayList.fxml"));
@@ -117,12 +126,21 @@ public class MainController {
                 e.printStackTrace();
             }
         }
+        settingIvEvnet();
+        lvResult.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                setResultListEvent();
+            }
+        });
     }
 
     public void setStage(final Stage stage){
         this.stage = stage;
         this.defaltStageWidth = stage.getWidth();
         this.defaltStageHeight = stage.getHeight();
+        this.nowWidth = stage.getWidth();
+        this.nowHeight = stage.getHeight();
 
         this.stage.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -148,7 +166,7 @@ public class MainController {
             @Override
             public void handle(MouseEvent event) {
                 Light light = new Light.Distant();
-                light.setColor(new Color(0.5,0.0,0.0,1.0));
+                light.setColor(new Color(0.5, 0.0, 0.0, 1.0));
                 ivExit.setEffect(new Lighting(light));
             }
         });
@@ -189,25 +207,49 @@ public class MainController {
             @Override
             public void handle(MouseEvent event) {
                 if(isMaxmize){
+                    //Maximize상태에서 돌아올 때
                     isMaxmize = false;
                     stage.setX(nowLocateX);
                     stage.setY(nowLocateY);
                     stage.setWidth(nowWidth);
                     stage.setHeight(nowHeight);
+                    setSearchTabSize();
                     stage.setMaximized(false);
                 }
                 else {
+                    //Maximize상태로 만들 때
                     isMaxmize = true;
                     nowWidth = stage.getWidth();
                     nowHeight = stage.getHeight();
                     nowLocateX = stage.getX();
                     nowLocateY = stage.getY();
-
                     stage.setMaximized(true);
+                    setSearchTabSize();
                 }
                 event.consume();
             }
         });
+    }
+
+    private void setSearchTabSize(){
+        rootPane.setPrefWidth(stage.getWidth());
+        rootPane.setMaxWidth(stage.getWidth());
+        System.out.println(searchFlag);
+        if(searchFlag){
+            gpRoot.getColumnConstraints().get(0).setMinWidth(stage.getWidth() - 200.0d);
+            gpRoot.getColumnConstraints().get(0).setPrefWidth(stage.getWidth() - 200.0d);
+            gpRoot.getColumnConstraints().get(0).setMaxWidth(stage.getWidth() - 200.0d);
+            gpRoot.getColumnConstraints().get(1).setPrefWidth(200.0d);
+            gpRoot.getColumnConstraints().get(1).setMaxWidth(200.0d);
+        }
+        else{
+            gpRoot.getColumnConstraints().get(0).setMinWidth(stage.getWidth());
+            gpRoot.getColumnConstraints().get(0).setPrefWidth(stage.getWidth());
+            gpRoot.getColumnConstraints().get(0).setMaxWidth(stage.getWidth());
+            gpRoot.getColumnConstraints().get(1).setPrefWidth(0.0);
+            gpRoot.getColumnConstraints().get(1).setMaxWidth(0.0);
+        }
+
     }
 
     public void setMinimizeEvent(){
@@ -251,17 +293,19 @@ public class MainController {
         this.ivExit.setEffect(new Lighting(defaultLight));
         this.ivMaximize.setEffect(new Lighting(defaultLight));
         this.ivMinimize.setEffect(new Lighting(defaultLight));
+        this.ivSearch.setEffect(new Lighting(defaultLight));
 
         setMinimizeEvent();
         setMaximizeEvent();
         setExitEvent();
-        setSearchEvent();
+        setSearchTabEvent();
         setListEvent();
         setVolumeEvent();
         setPlayEvent();
         setStopEvent();
         setSlowEvent();
         setFastEvent();
+        setSearchEvent();
     }
 
     public void setPlayEvent(){
@@ -280,41 +324,38 @@ public class MainController {
         this.ivPlay.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(playStatus == MediaPlayer.Status.PAUSED ){
+                if (playStatus == MediaPlayer.Status.PAUSED) {
                     //Click PauseButton
                     ivPlay.setImage(new Image("ui/img/play_icon.png"));
                     player.play();
                     playStatus = MediaPlayer.Status.PLAYING;
                     return;
-                }
-                else if(playStatus == MediaPlayer.Status.PLAYING){
+                } else if (playStatus == MediaPlayer.Status.PLAYING) {
                     //Click PlayButton
                     ivPlay.setImage(new Image("ui/img/pause_icon.png"));
                     player.pause();
                     playStatus = MediaPlayer.Status.PAUSED;
                     return;
-                }
-                else if(playStatus == MediaPlayer.Status.STOPPED || playStatus == MediaPlayer.Status.READY){
+                } else if (playStatus == MediaPlayer.Status.STOPPED || playStatus == MediaPlayer.Status.READY) {
                     if (!openFileExist()) {
                         //Open File not Exist
                         openBtnEventListener();
                     } else {
                         //Open File Exist
-                        if(listSelected != -1){
+                        if (listSelected != -1) {
                             player = new MediaPlayer(new Media(openFileList.get(listSelected).toURI().toString()));
                             setPlayer();
                             reSizeWindow(playController.getVideowidthHeight(openFileList.get(currentFile)));
-
+                            openTextFile();
                             player.setAutoPlay(true);
                             playStatus = MediaPlayer.Status.PLAYING;
                             ivPlay.setImage(new Image("ui/img/pause_icon.png"));
                             mvPlay.setMediaPlayer(player);
-                        }
-                        else {
+                        } else {
                             player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
                             setPlayer();
                             reSizeWindow(playController.getVideowidthHeight(openFileList.get(currentFile)));
-
+                            openTextFile();
                             player.setAutoPlay(true);
                             playStatus = MediaPlayer.Status.PLAYING;
                             ivPlay.setImage(new Image("ui/img/pause_icon.png"));
@@ -325,6 +366,14 @@ public class MainController {
                 event.consume();
             }
         });
+    }
+
+    public void openTextFile(){
+        File openFile = openFileList.get(currentFile);
+        String path = openFile.getPath().replace(openFile.getName(),"");
+        path += openFile.getName().split("[.]")[0] + ".txt";
+        File textFile = new File(path);
+        playController.openTextFile(textFile);
     }
 
     public void setStopEvent(){
@@ -343,7 +392,7 @@ public class MainController {
         this.ivStop.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                if(playStatus == MediaPlayer.Status.PLAYING){
+                if (playStatus == MediaPlayer.Status.PLAYING) {
                     playStatus = MediaPlayer.Status.STOPPED;
                     player.stop();
                     ivPlay.setImage(new Image("ui/img/pause_icon.png"));
@@ -492,7 +541,7 @@ public class MainController {
         });
     }
 
-    public void setSearchEvent(){
+    public void setSearchTabEvent(){
         this.ivSearchTab.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -508,26 +557,92 @@ public class MainController {
         this.ivSearchTab.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                searchFlag = !searchFlag;
                 double width = stage.getWidth();
 
                 if(searchFlag) {
-                    stage.setWidth(width + 200.0d);
-                    rootPane.setPrefWidth(stage.getWidth());
-                    gpRoot.getColumnConstraints().get(0).setPrefWidth(stage.getWidth() - 220.0d);
-                    gpRoot.getColumnConstraints().get(1).setPrefWidth(210.0d);
-                    gpRoot.getColumnConstraints().get(1).setMaxWidth(210.0d);
-                } else{
+                    //search창을 제거할 때
                     stage.setWidth(width - 200.0d);
-                    gpWindow.setPrefWidth(stage.getWidth());
-                    rootPane.setPrefWidth(stage.getWidth());
-                    //gpRoot.getColumnConstraints().get(0).setPercentWidth(100.0);
-                    gpRoot.getColumnConstraints().get(0).setPrefWidth(stage.getWidth());
-                    gpRoot.getColumnConstraints().get(1).setPrefWidth(0.0);
+                    if(isMaxmize){
+                        stage.setWidth(width);
+                        nowWidth -= 200.0d;
+                    }
+                    searchFlag = !searchFlag;
+                    setSearchTabSize();
+                }
+                else{
+                    //search창을 만들 때
+                    stage.setWidth(width + 200.0d);
+                    if(isMaxmize){
+                        stage.setWidth(width);
+                        nowWidth += 200.0d;
+                    }
+                    searchFlag = !searchFlag;
+                    setSearchTabSize();
+                }
+
+                event.consume();
+            }
+        });
+    }
+
+    public void setSearchEvent(){
+        this.ivSearch.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivSearch.setEffect(new Lighting(enterLight));
+            }
+        });
+        this.ivSearch.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                ivSearch.setEffect(new Lighting(defaultLight));
+            }
+        });
+        this.ivSearch.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (tfKeyword.getText().length() != 0) {
+                    searchResultSet = playController.getSearchResult(tfKeyword.getText());
+                    setResultList();
                 }
                 event.consume();
             }
         });
+    }
+
+    private void setResultList(){
+        ObservableList observableList = FXCollections.observableArrayList();
+        observableList.setAll(this.searchResultSet);
+
+        lvResult.setItems(observableList);
+        lvResult.setPrefHeight(50 * searchResultSet.size());
+        lvResult.setMinHeight(50 * searchResultSet.size());
+        lvResult.setMinHeight(50 * searchResultSet.size());
+        lvResult.setCellFactory(new Callback<ListView<ScriptData>, ListCell<ScriptData>>() {
+            @Override
+            public ListCell<ScriptData> call(ListView<ScriptData> param) {
+                return (new ListCell<ScriptData>() {
+                    @Override
+                    public void updateItem(ScriptData item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            ResultController result = new ResultController();
+                            result.setInfo(item);
+                            setGraphic(result.getGridPane());
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    public void setResultListEvent(){
+        ScriptData click = (ScriptData)lvResult.getSelectionModel().getSelectedItem();
+        if(click!=null){
+            Duration jumpDuration = Duration.seconds(click.getTimeSec());
+            player.seek(jumpDuration);
+            updateValues();
+        }
     }
 
     public void openBtnEventListener(){
@@ -551,6 +666,7 @@ public class MainController {
             player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
             setPlayer();
             reSizeWindow(this.playController.getVideowidthHeight(openFile.get(currentFile)));
+            openTextFile();
             player.setAutoPlay(true);
             playStatus = MediaPlayer.Status.PLAYING;
             ivPlay.setImage(new Image("ui/img/pause_icon.png"));
@@ -622,10 +738,16 @@ public class MainController {
         String widthAndHeight = size;
         double width = Double.parseDouble(widthAndHeight.split("[#]")[0]);
         double height = Double.parseDouble(widthAndHeight.split("[#]")[1]);
-        this.stage.setWidth(width+10.0d);
+
+        if(searchFlag){
+            this.stage.setWidth(width + 20.0d + 200.0d);
+        }
+        else{
+            this.stage.setWidth(width + 20.0d);
+        }
+
         this.stage.setHeight(height + gpWindow.getHeight() + gpControl.getHeight() + 20.0d);
-        this.rootPane.setPrefWidth(stage.getWidth());
-        this.rootPane.setPrefHeight(stage.getHeight());
+        setSearchTabSize();
         this.mvPlay.setFitHeight(height);
         this.mvPlay.setFitWidth(width);
     }
@@ -782,6 +904,7 @@ public class MainController {
                 player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
                 setPlayer();
                 reSizeWindow(playController.getVideowidthHeight(openFileList.get(currentFile)));
+                openTextFile();
                 player.setAutoPlay(true);
                 playStatus = MediaPlayer.Status.PLAYING;
                 mvPlay.setMediaPlayer(player);

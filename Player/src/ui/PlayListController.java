@@ -39,9 +39,6 @@ public class PlayListController {
     private double yOffset;
     private Stage stage;
 
-    private final int ROW_HEIGHT = 21;
-
-
     @FXML public void initialize() {
         Parent root;
         settingRootPane();
@@ -137,9 +134,6 @@ public class PlayListController {
                     //File open success
                     MainController.addOpenFileList(addFileList);
                     ObservableList<String> playNameList = FXCollections.observableList(MainController.getPlayListName());
-                    lvPlayList.setPrefHeight(playNameList.size() * ROW_HEIGHT + 2);
-                    lvPlayList.setMinHeight(playNameList.size() * ROW_HEIGHT + 2);
-                    lvPlayList.setMaxHeight(playNameList.size() * ROW_HEIGHT + 2);
                     lvPlayList.setEditable(false);
                     lvPlayList.setItems(playNameList);
                 }
@@ -177,9 +171,6 @@ public class PlayListController {
         if(MainController.openFileExist()) {
             ObservableList<String> playNameList = FXCollections.observableList(MainController.getPlayListName());
             System.out.println(playNameList.size());
-            this.lvPlayList.setPrefHeight(playNameList.size() * ROW_HEIGHT + 2);
-            this.lvPlayList.setMinHeight(playNameList.size() * ROW_HEIGHT + 2);
-            this.lvPlayList.setMaxHeight(playNameList.size() * ROW_HEIGHT + 2);
             this.lvPlayList.setEditable(false);
             this.lvPlayList.setItems(playNameList);
 
