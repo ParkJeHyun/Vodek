@@ -62,7 +62,7 @@ public class PlayListController {
         });
     }
 
-    public void settingIvEvnet(){
+    private void settingIvEvnet(){
         this.enterLight = new Light.Distant();
         this.enterLight.setColor(new Color(1.0,1.0,0.0,1.0));
 
@@ -82,7 +82,7 @@ public class PlayListController {
         this.stage = stage;
     }
 
-    public void setExitEvent(){
+    private void setExitEvent(){
         this.ivExit.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -106,7 +106,7 @@ public class PlayListController {
         });
     }
 
-    public void setAddEvent(){
+    private void setAddEvent(){
         this.ivAdd.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -142,7 +142,7 @@ public class PlayListController {
         });
     }
 
-    public void setMinusEvent(){
+    private void setMinusEvent(){
         this.ivMinus.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -202,6 +202,5 @@ public class PlayListController {
     public void closePlayList(){
         stage.close();
     }
-
 
 }

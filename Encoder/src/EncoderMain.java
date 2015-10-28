@@ -22,7 +22,7 @@ public class EncoderMain extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/EncoderXml.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ui/Encoder.fxml"));
             Parent root = (Parent) loader.load();
             primaryStage.initStyle(StageStyle.UNDECORATED);
 
