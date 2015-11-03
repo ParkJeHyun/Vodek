@@ -23,9 +23,9 @@ public class DivideAudio {
         return instance;
     }
 
-    public void divideFile(File inputFile){
+    public int divideFile(File inputFile){
         File dir = makeDir(inputFile.getPath().replace(inputFile.getName(),"")+inputFile.getName().split("[.]")[0]);
-
+        int divideFileNum = 0;
         try {
             ArrayList<Integer> cutSpotSet = findCutSpot(inputFile);
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputFile);
@@ -34,7 +34,7 @@ public class DivideAudio {
             long past = 0;
             long writeSize = 0;
             long nowSize = 0;
-            int j = 0;
+
             for(int i=0;i<cutSpotSet.size();i++){
                 long cutSpot = cutSpotSet.get(i)*bufferSize;
                 writeSize = cutSpot - past;
@@ -49,11 +49,11 @@ public class DivideAudio {
                     break;
                 }
 
-                File spilitWav = new File(dir.getPath() + "/output" + (j + "") + ".wav");
+                File spilitWav = new File(dir.getPath() + "/output" + (divideFileNum + "") + ".wav");
                 AudioInputStream input = new AudioInputStream(audioInputStream,format,nowSize);
                 AudioSystem.write(input, AudioFileFormat.Type.WAVE, spilitWav);
                 size += spilitWav.length();
-                j++;
+                divideFileNum++;
                 writeSize = 0;
                 nowSize = 0;
             }
@@ -64,6 +64,7 @@ public class DivideAudio {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return divideFileNum+1;
     }
 
     public File makeDir(String dirName){

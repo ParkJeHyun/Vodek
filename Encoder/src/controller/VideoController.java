@@ -17,7 +17,7 @@ public class VideoController {
         return instance;
     }
 
-    public void extractAudio(File videoFile){
+    public int extractAudio(File videoFile){
         String workingDir = videoFile.getPath().replace(videoFile.getName(), "");
         extractAudio = ExtractAudio.getInstance();
 
@@ -28,12 +28,12 @@ public class VideoController {
             extractAudio.makeAudioFile(videoFile, audioFile);
         }
         System.out.println("Extra Audio File Complete!!!");
-        divideAudio(audioFile);
+        return divideAudio(audioFile);
     }
 
-    public void divideAudio(File audioFile){
+    public int divideAudio(File audioFile){
         divideAudio = DivideAudio.getInstance();
-        divideAudio.divideFile(audioFile);
+        return divideAudio.divideFile(audioFile);
     }
 
     public String getVideoInfo(File videoFile){

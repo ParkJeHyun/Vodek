@@ -12,18 +12,23 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,18 +68,42 @@ public class MainController {
     private Light.Distant defaultLight;
 
     private ArrayList<File> fileList;
-    private ArrayList<InputFile> inputFileList;
 
     private VideoController videoController;
+    private ProgressController progressController;
     private ConvertWTT convertWTT;
 
+    private Parent progressRoot;
+    private Stage progressStage;
+    private Scene progressScene;
 
+    private static WaitEvent waiting;
+    private static String progressEvent;
 
     @FXML public void initialize(){
         this.isMaxmize = false;
-
+        waiting = new WaitEvent();
         settingRootPane();
         settingIvEvnet();
+
+        if(this.progressController == null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("ui/ProgressBar.fxml"));
+                this.progressRoot = loader.load();
+                this.progressController = (ProgressController) loader.getController();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void setProgressStage(){
+        progressStage = new Stage();
+        progressStage.initStyle(StageStyle.UNDECORATED);
+        progressStage.setScene(new Scene(progressRoot));
+        progressStage.setX(stage.getX() + stage.getWidth() / 2 - 200);
+        progressStage.setY(stage.getY() + stage.getHeight() / 2 - 100);
+        progressController.setStage(progressStage);
     }
 
     public void setStage(final Stage stage){
@@ -228,23 +257,26 @@ public class MainController {
         this.ivAdd.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ArrayList<File> addList;
+                ArrayList<File> addArrayList;
+                List<File> addList;
                 String path = System.getProperty("user.dir");
                 File dir = new File(path);
                 FileChooser filechooser = new FileChooser();
                 filechooser.setTitle("Open Video Files");
                 filechooser.setInitialDirectory(dir);
                 setFileChooserExtensionFilter(filechooser);
-                addList = new ArrayList<File>(filechooser.showOpenMultipleDialog(stage.getScene().getWindow()));
-                if (fileList == null) {
-                    fileList = addList;
-                }
-                else {
-                    for(int i=0;i<addList.size();i++){
-                        fileList.add(addList.get(i));
+                addList = filechooser.showOpenMultipleDialog(stage.getScene().getWindow());
+                if(addList != null) {
+                    addArrayList = new ArrayList<File>(addList);
+                    if (fileList == null) {
+                        fileList = addArrayList;
+                    } else {
+                        for (int i = 0; i < addArrayList.size(); i++) {
+                            fileList.add(addArrayList.get(i));
+                        }
                     }
+                    setInputFileListView();
                 }
-                setInputFileListView();
                 event.consume();
             }
         });
@@ -302,27 +334,27 @@ public class MainController {
         });
         this.ivPlay.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent event){
+            public void handle(MouseEvent event) {
                 taLog.setText("");
                 videoController = VideoController.getInstance();
                 convertWTT = ConvertWTT.getInstance();
-                for (int i = 0; i < inputFileList.size(); i++) {
-                    if (inputFileList.get(i).getFlag()) {
-                        taLog.appendText(inputFileList.get(i).getFile().getName() + " Start\n");
-                        videoController.extractAudio(inputFileList.get(i).getFile());
-//                        try {
-//                            convertWTT.waveToText(inputFileList.get(i).getFile().getPath().replace(inputFileList.get(i).getFile().getName(), "") + inputFileList.get(i).getFile().getName().split("[.]")[0]);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-                        taLog.appendText(inputFileList.get(i).getFile().getName() + " Complete\n");
-                    }
+                if (fileList.size() != 0) {
+                    callProgressbar();
+                    progressController.setFileList(fileList);
+                    progressController.doProgress();
                 }
                 event.consume();
             }
         });
     }
 
+    public void callProgressbar(){
+        if(progressStage==null) {
+            setProgressStage();
+        }
+
+        progressStage.show();
+    }
 
     private void setFileChooserExtensionFilter(FileChooser filechooser){
         FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Video Files","*.mp4","*.avi");
@@ -331,10 +363,9 @@ public class MainController {
 
     public void setInputFileListView(){
         List<String> fileNameList = new ArrayList<String>();
-        this.inputFileList = new ArrayList<InputFile>();
 
         for(int i=0;i<fileList.size();i++){
-            this.inputFileList.add(new InputFile(fileList.get(i)));
+//            this.inputFileList.add(new InputFile(fileList.get(i)));
             fileNameList.add(fileList.get(i).getName());
         }
         ObservableList<String> list = FXCollections.observableList(fileNameList);
@@ -344,41 +375,41 @@ public class MainController {
         this.lvInputFileList.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                String selectFileName = (String)lvInputFileList.getSelectionModel().getSelectedItem();
+                String selectFileName = (String) lvInputFileList.getSelectionModel().getSelectedItem();
                 boolean find = false;
                 videoController = VideoController.getInstance();
-                for (int j = 0; j < inputFileList.size(); j++) {
-                    File listFile = inputFileList.get(j).getFile();
-                    if (selectFileName.equals(listFile.getName())) {
-                        String fileInfo = videoController.getVideoInfo(inputFileList.get(j).getFile());
-                        String[] fileInfos = fileInfo.split("[#]");
-                        tfFilename.setText(fileInfos[0]);
-                        tfFilename.setAlignment(Pos.CENTER);
-                        tfFilesize.setText(fileInfos[2]);
-                        tfFilesize.setAlignment(Pos.CENTER);
-                        tfFiletime.setText(fileInfos[1]);
-                        tfFiletime.setAlignment(Pos.CENTER);
-                        //taFileInfo.setText(videoController.getVideoInfo(inputFileList.get(j).getFile()));
-                        find = true;
-                        break;
+                if (selectFileName != null) {
+                    for (int j = 0; j < fileList.size(); j++) {
+                        File listFile = fileList.get(j);
+                        if (selectFileName.equals(listFile.getName())) {
+                            String fileInfo = videoController.getVideoInfo(fileList.get(j));
+                            String[] fileInfos = fileInfo.split("[#]");
+                            tfFilename.setText(fileInfos[0]);
+                            tfFilename.setAlignment(Pos.CENTER);
+                            tfFilesize.setText(fileInfos[2]);
+                            tfFilesize.setAlignment(Pos.CENTER);
+                            tfFiletime.setText(fileInfos[1]);
+                            tfFiletime.setAlignment(Pos.CENTER);
+                            //taFileInfo.setText(videoController.getVideoInfo(inputFileList.get(j).getFile()));
+                            find = true;
+                            break;
+                        }
                     }
                 }
             }
         });
     }
 
-
-
     public void inputFileListVIewSelectEvent(ActionEvent e){
         List<String> selectFileNameList = lvInputFileList.getSelectionModel().getSelectedItems();
         boolean find = false;
         videoController = VideoController.getInstance();
         for(int i=0;i<selectFileNameList.size() || !find;i++){
-            for(int j=0;j<inputFileList.size();i++){
-                File listFile = inputFileList.get(j).getFile();
+            for(int j=0;j<fileList.size();i++){
+                File listFile = fileList.get(j);
                 if(selectFileNameList.get(i).equals(listFile.getName())){
                     taFileInfo.setEditable(false);
-                    taFileInfo.setText(videoController.getVideoInfo(inputFileList.get(j).getFile()));
+                    taFileInfo.setText(videoController.getVideoInfo(listFile));
                     return;
 //                    find = true;
 //                    break;
@@ -387,29 +418,25 @@ public class MainController {
         }
     }
 
-    private class InputFile{
-        boolean selectFlag;
-        File file;
+    public static void eventFromProgress(String event){
+        progressEvent = event;
+        waiting.run();
+    }
 
-        public InputFile(File file){
-            selectFlag = true;
-            this.file = file;
-        }
+    private class WaitEvent implements Runnable{
 
-        public void isSelected(){
-            selectFlag = true;
-        }
-
-        public void notSelected(){
-            selectFlag = false;
-        }
-
-        public boolean getFlag(){
-            return this.selectFlag;
-        }
-
-        public File getFile(){
-            return this.file;
+        @Override
+        public void run() {
+            if(progressEvent.contains("start")){
+                taLog.appendText(progressEvent.split("[#]")[0] + " Start\n");
+            }
+            else if(progressEvent.contains("complete")){
+                taLog.appendText(progressEvent.split("[#]")[0] + " Complete!\n");
+            }
+            else if(progressEvent.contains("stop")){
+                taLog.appendText("STOP\n");
+            }
         }
     }
+
 }
