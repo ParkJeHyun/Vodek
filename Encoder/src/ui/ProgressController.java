@@ -1,15 +1,13 @@
 package ui;
 
+import controller.ConvertWTT;
 import controller.VideoController;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.Light;
@@ -20,7 +18,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -43,10 +40,13 @@ public class ProgressController {
 
     private Thread progressThread;
 
+    private ConvertWTT convertWTT;
+
     @FXML public void initialize(){
         setExitEvent();
         videoController = VideoController.getInstance();
         currentWorkThread = new CurrentProgress();
+        convertWTT = ConvertWTT.getInstance();
     }
 
     public void setStage(Stage stage){
@@ -106,6 +106,16 @@ public class ProgressController {
         });
     }
 
+    public void setMainTextArea(final String command){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                MainController.eventFromProgress(command);
+
+            }
+        });
+
+    }
 
     public void stopEvent(ActionEvent event)
     {
@@ -118,42 +128,48 @@ public class ProgressController {
         boolean stop = false;
         @Override
         public void run() {
-            try {
-                while (!Thread.currentThread().isInterrupted()) {
-                    totalProperty = new SimpleDoubleProperty(inputFIleList.size());
-                    pbTotal.progressProperty().unbind();
-                    pbTotal.progressProperty().bind(totalProperty);
-                    totalProperty.set(0.0);
-                    for (int i = 0; i < inputFIleList.size(); i++) {
-                        File currentFIle = inputFIleList.get(i);
-
-                        setCurrentName(currentFIle.getName() + " (" + (i + 1) + "/" + inputFIleList.size() + ")");
-
-                        int divideFileNum = videoController.extractAudio(currentFIle);
-
-                        currentProperty = new SimpleDoubleProperty(divideFileNum);
-                        MainController.eventFromProgress(currentFIle.getName() + "#start");
-                        pbCurrent.progressProperty().unbind();
-                        pbCurrent.progressProperty().bind(currentProperty);
-                        currentProperty.set(0.0);
-
-                        for (int k = 1; k < divideFileNum + 1; k++) {
-                            Thread.sleep(50);
-                            currentProperty.set((double) k / (double) divideFileNum);
-                        }
-
-                        MainController.eventFromProgress(currentFIle.getName() + "#complete");
-                        totalProperty.set((double) (i + 1) / (double) inputFIleList.size());
+            while (!progressThread.isInterrupted()) {
+                System.out.println("Interrupt " + progressThread.isInterrupted());
+                totalProperty = new SimpleDoubleProperty(inputFIleList.size());
+                pbTotal.progressProperty().unbind();
+                pbTotal.progressProperty().bind(totalProperty);
+                totalProperty.set(0.0);
+                for (int i = 0; i < inputFIleList.size(); i++) {
+                    if(progressThread.isInterrupted()){
+                        break;
                     }
-                    Thread.sleep(100);
-                    break;
+                    File currentFIle = inputFIleList.get(i);
+
+                    setCurrentName(currentFIle.getName() + " (" + (i + 1) + "/" + inputFIleList.size() + ")");
+
+                    int divideFileNum = videoController.extractAudio(currentFIle);
+
+                    currentProperty = new SimpleDoubleProperty(divideFileNum);
+                    setMainTextArea(currentFIle.getName() + "#start");
+                    pbCurrent.progressProperty().unbind();
+                    pbCurrent.progressProperty().bind(currentProperty);
+                    currentProperty.set(0.0);
+
+                    for (int k = 0; k < divideFileNum + 1; k++) {
+                        if(progressThread.isInterrupted()){
+                            break;
+                        }
+                        try {
+                            convertWTT.waveToText(currentFIle.getPath().replace(currentFIle.getName(), "") + currentFIle.getName().split("[.]")[0] , k);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        currentProperty.set((double) k / (double) divideFileNum);
+                    }
+                    convertWTT.writeTxt(currentFIle.getPath().replace(currentFIle.getName(), "") + currentFIle.getName().split("[.]")[0]);
+
+                    setMainTextArea(currentFIle.getName() + "#complete");
+                    totalProperty.set((double) (i + 1) / (double) inputFIleList.size());
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                break;
             }
-            finally {
-                exit();
-            }
+            exit();
+
         }
 
     }

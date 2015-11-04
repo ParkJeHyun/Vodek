@@ -1,6 +1,5 @@
 package ui;
 
-import com.sun.xml.internal.ws.api.message.Packet;
 import controller.PlayController;
 import controller.ScriptData;
 import javafx.application.Platform;
@@ -10,22 +9,26 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.*;
-import javafx.fxml.*;
-import javafx.geometry.Insets;
-import javafx.scene.*;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
-import javafx.stage.*;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
@@ -407,6 +410,7 @@ public class MainController {
         path += openFile.getName().split("[.]")[0] + ".txt";
         File textFile = new File(path);
         playController.openTextFile(textFile);
+        System.out.println(textFile.getName());
     }
 
     private void setStopEvent(){

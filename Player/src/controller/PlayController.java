@@ -3,9 +3,7 @@ package controller;
 import it.sauronsoftware.jave.*;
 
 import java.io.*;
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2015-10-20.
@@ -33,6 +31,7 @@ public class PlayController {
             String readString;
 
             while((readString = in.readLine()) != null){
+                System.out.println(readString);
                 String[] readData = readString.split("[#]");
                 dataSet.add(new ScriptData(readData[0],getTimeSec(readData[0]),readData[1]));
             }

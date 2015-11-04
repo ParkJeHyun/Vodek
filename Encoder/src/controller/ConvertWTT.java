@@ -14,72 +14,95 @@ import java.io.*;
  */
 public class ConvertWTT {
     public static ConvertWTT instance = null;
-    public static ConvertWTT getInstance(){
+    private Configuration configuration;
+    private StreamSpeechRecognizer recognizer;
+    private int hour=0,min=0,sec=0;
+    private String resultsTxt =  "";
+    private File file;
 
+    public static ConvertWTT getInstance(){
         if(instance == null){
             instance = new ConvertWTT();
+
         }
         return instance;
     }
 
-    public static void waveToText(String name) throws Exception
-    {
-        int i=0,num=5,hour=0,min=0,sec=0;
-        int frameSize=0;
-
-        String results_w =  "";
-        Configuration configuration = new Configuration();
+    public ConvertWTT(){
+        configuration = new Configuration();
         configuration.setAcousticModelPath("file:model_parameters/AcousicModeling.cd_cont_200");
         configuration.setDictionaryPath("AcousticModeling.dic");
         configuration.setLanguageModelPath("AcousticModeling.lm.dmp");
         configuration.setSampleRate(16000);
-        StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(configuration);
-        for(i=0;i<num;i++){
-            File file = new File(name+"/output"+i+".wav");
-            recognizer.startRecognition(new FileInputStream(file));
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-            AudioFormat format = audioInputStream.getFormat();
-            frameSize = (int)format.getFrameRate();
-            int time = (int)audioInputStream.getFrameLength()/frameSize;
-            System.out.println(time);
-
-
-            if(sec+time>=60) {
-                min += (sec+time)/60;
-                sec = sec+time%60;
-                if(min>=60)
-                {
-                    hour+=min/60;
-                    min%=60;
-                }
-            }
-            else
-                sec+=time;
-
-            results_w = results_w+hour+":"+min+":"+sec+"# ";
-            SpeechResult result;
-            while ((result = recognizer.getResult()) != null) {
-                System.out.println(i);
-                System.out.println(result.getHypothesis());
-                results_w = results_w + result.getHypothesis() + " ";
-            }
-            recognizer.stopRecognition();
-            results_w = results_w + "\n";
+        try {
+            recognizer = new StreamSpeechRecognizer(configuration);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    public void waveToText(String name,int i) throws Exception
+    {
+        int frameSize=0;
+
+        if(i==0) {
+            resultsTxt = "";
+        }
+
+        try {
+            recognizer = new StreamSpeechRecognizer(configuration);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        file = new File(name+"/output"+i+".wav");
+
+        recognizer.startRecognition(new FileInputStream(file));
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+        AudioFormat format = audioInputStream.getFormat();
+
+        frameSize = (int)format.getFrameRate();
+        int time = (int)audioInputStream.getFrameLength()/frameSize;
+
+        resultsTxt = resultsTxt+hour+":"+min+":"+sec+"# ";
+        SpeechResult result;
+
+        while ((result = recognizer.getResult()) != null) {
+            //System.out.println(result.getHypothesis());
+            resultsTxt = resultsTxt + result.getHypothesis() + " ";
+        }
+
+        recognizer.stopRecognition();
+        resultsTxt = resultsTxt + "\n";
+
+        if(sec+time>=60) {
+            min += (sec+time)/60;
+            sec = time%60;
+            if(min>=60)
+            {
+                hour+=min/60;
+                min%=60;
+            }
+        }
+        else {
+            sec += time;
+        }
+//        System.out.println(resultsTxt);
+    }
+    public void writeTxt(String name)
+    {
         try
         {
-            FileWriter fw = new FileWriter(name+".txt"); // �����ּ� ��� ����
+            FileWriter fw = new FileWriter(name+".txt");
             BufferedWriter bw = new BufferedWriter(fw);
 
-            bw.write(results_w);
+            bw.write(resultsTxt);
             bw.close();
         }
         catch (IOException e)
         {
-            System.err.println(e); // ������ �ִٸ� �޽��� ���
+            System.err.println(e);
             System.exit(1);
         }
-
-        System.out.println(results_w);
     }
 }
