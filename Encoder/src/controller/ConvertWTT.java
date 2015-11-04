@@ -29,9 +29,9 @@ public class ConvertWTT {
 
         String results_w =  "";
         Configuration configuration = new Configuration();
-        configuration.setAcousticModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us");
-        configuration.setDictionaryPath("resource:/edu/cmu/sphinx/models/en-us/cmudict-en-us.dict");
-        configuration.setLanguageModelPath("resource:/edu/cmu/sphinx/models/en-us/en-us.lm.bin");
+        configuration.setAcousticModelPath("file:model_parameters/AcousicModeling.cd_cont_200");
+        configuration.setDictionaryPath("AcousticModeling.dic");
+        configuration.setLanguageModelPath("AcousticModeling.lm.dmp");
         configuration.setSampleRate(16000);
         StreamSpeechRecognizer recognizer = new StreamSpeechRecognizer(configuration);
         for(i=0;i<num;i++){
@@ -57,7 +57,7 @@ public class ConvertWTT {
                 sec+=time;
 
             results_w = results_w+hour+":"+min+":"+sec+"# ";
-            SpeechResult result = recognizer.getResult();
+            SpeechResult result;
             while ((result = recognizer.getResult()) != null) {
                 System.out.println(i);
                 System.out.println(result.getHypothesis());
@@ -68,7 +68,7 @@ public class ConvertWTT {
         }
         try
         {
-            FileWriter fw = new FileWriter(name+".txt"); // Àý´ëÁÖ¼Ò °æ·Î °¡´É
+            FileWriter fw = new FileWriter(name+".txt"); // ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             BufferedWriter bw = new BufferedWriter(fw);
 
             bw.write(results_w);
@@ -76,7 +76,7 @@ public class ConvertWTT {
         }
         catch (IOException e)
         {
-            System.err.println(e); // ¿¡·¯°¡ ÀÖ´Ù¸é ¸Þ½ÃÁö Ãâ·Â
+            System.err.println(e); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             System.exit(1);
         }
 
