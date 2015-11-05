@@ -410,7 +410,6 @@ public class MainController {
         path += openFile.getName().split("[.]")[0] + ".txt";
         File textFile = new File(path);
         playController.openTextFile(textFile);
-        System.out.println(textFile.getName());
     }
 
     private void setStopEvent(){
@@ -599,20 +598,20 @@ public class MainController {
 
                 if(searchFlag) {
                     //search창을 제거할 때
-                    stage.setWidth(width - 200.0d);
+                    stage.setWidth(width - 250.0d);
                     if(isMaxmize){
                         stage.setWidth(width);
-                        nowWidth -= 200.0d;
+                        nowWidth -= 250.0d;
                     }
                     searchFlag = !searchFlag;
                     setSearchTabSize();
                 }
                 else{
                     //search창을 만들 때
-                    stage.setWidth(width + 200.0d);
+                    stage.setWidth(width + 250.0d);
                     if(isMaxmize){
                         stage.setWidth(width);
-                        nowWidth += 200.0d;
+                        nowWidth += 250.0d;
                     }
                     searchFlag = !searchFlag;
                     setSearchTabSize();
@@ -725,7 +724,7 @@ public class MainController {
         double height = Double.parseDouble(widthAndHeight.split("[#]")[1]);
 
         if(searchFlag){
-            this.stage.setWidth(width + 20.0d + 200.0d);
+            this.stage.setWidth(width + 20.0d + 250.0d);
         }
         else{
             this.stage.setWidth(width + 20.0d);
@@ -845,11 +844,11 @@ public class MainController {
         rootPane.setMaxWidth(stage.getWidth());
 
         if(searchFlag){
-            gpRoot.getColumnConstraints().get(0).setMinWidth(stage.getWidth() - 200.0d);
-            gpRoot.getColumnConstraints().get(0).setPrefWidth(stage.getWidth() - 200.0d);
-            gpRoot.getColumnConstraints().get(0).setMaxWidth(stage.getWidth() - 200.0d);
-            gpRoot.getColumnConstraints().get(1).setPrefWidth(200.0d);
-            gpRoot.getColumnConstraints().get(1).setMaxWidth(200.0d);
+            gpRoot.getColumnConstraints().get(0).setMinWidth(stage.getWidth() - 250.0d);
+            gpRoot.getColumnConstraints().get(0).setPrefWidth(stage.getWidth() - 250.0d);
+            gpRoot.getColumnConstraints().get(0).setMaxWidth(stage.getWidth() - 250.0d);
+            gpRoot.getColumnConstraints().get(1).setPrefWidth(250.0d);
+            gpRoot.getColumnConstraints().get(1).setMaxWidth(250.0d);
         }
         else{
             gpRoot.getColumnConstraints().get(0).setMinWidth(stage.getWidth());

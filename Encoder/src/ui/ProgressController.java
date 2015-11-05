@@ -82,13 +82,16 @@ public class ProgressController {
         this.ivExit.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                if(progressThread.isAlive()){
+                    progressThread.interrupt();
+                }
                 stage.close();
                 event.consume();
             }
         });
     }
 
-    public void setCurrentName(final String fileName){
+    public void setCurrentName(final String fileName) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -169,7 +172,6 @@ public class ProgressController {
                 break;
             }
             exit();
-
         }
 
     }

@@ -3,6 +3,7 @@ package controller;
 import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.StreamSpeechRecognizer;
+import ui.MainController;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -95,7 +96,7 @@ public class ConvertWTT {
         {
             FileWriter fw = new FileWriter(name+".txt");
             BufferedWriter bw = new BufferedWriter(fw);
-
+            MainController.eventFromProgress(name+".txt#output");
             bw.write(resultsTxt);
             bw.close();
         }

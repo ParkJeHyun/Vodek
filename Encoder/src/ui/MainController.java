@@ -52,6 +52,8 @@ public class MainController {
     @FXML ImageView ivAdd;
     @FXML ImageView ivMinus;
     @FXML TextArea taLog;
+    @FXML ListView lvOutputFileList;
+
 
     private Stage stage;
     private double xOffset;
@@ -68,6 +70,7 @@ public class MainController {
     private Light.Distant defaultLight;
 
     private ArrayList<File> fileList;
+    private ArrayList<String> outputList;
 
     private VideoController videoController;
     private ProgressController progressController;
@@ -95,6 +98,7 @@ public class MainController {
                 e.printStackTrace();
             }
         }
+        outputList = new ArrayList<String>();
     }
 
     public void setProgressStage(){
@@ -336,6 +340,7 @@ public class MainController {
             @Override
             public void handle(MouseEvent event) {
                 taLog.setText("");
+                lvOutputFileList.getItems().clear();
                 videoController = VideoController.getInstance();
                 convertWTT = ConvertWTT.getInstance();
                 if (fileList.size() != 0) {
@@ -435,6 +440,11 @@ public class MainController {
             }
             else if(progressEvent.contains("stop")){
                 taLog.appendText("STOP\n");
+            }
+            else if(progressEvent.contains("output")){
+                outputList.add(progressEvent.split("[#]")[0]);
+                ObservableList<String> list = FXCollections.observableList(outputList);
+                lvOutputFileList.setItems(list);
             }
         }
     }

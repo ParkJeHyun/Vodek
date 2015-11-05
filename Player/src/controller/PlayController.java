@@ -31,7 +31,6 @@ public class PlayController {
             String readString;
 
             while((readString = in.readLine()) != null){
-                System.out.println(readString);
                 String[] readData = readString.split("[#]");
                 dataSet.add(new ScriptData(readData[0],getTimeSec(readData[0]),readData[1]));
             }
