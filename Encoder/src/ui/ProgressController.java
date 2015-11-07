@@ -128,7 +128,6 @@ public class ProgressController {
     private class CurrentProgress implements Runnable {
         DoubleProperty currentProperty;
         DoubleProperty totalProperty;
-        boolean stop = false;
         @Override
         public void run() {
             while (!progressThread.isInterrupted()) {
@@ -153,7 +152,7 @@ public class ProgressController {
                     pbCurrent.progressProperty().bind(currentProperty);
                     currentProperty.set(0.0);
 
-                    for (int k = 0; k < divideFileNum + 1; k++) {
+                    for (int k = 0; k < divideFileNum; k++) {
                         if(progressThread.isInterrupted()){
                             break;
                         }
