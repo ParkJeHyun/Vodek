@@ -50,12 +50,12 @@ public class PlayListController {
                     if (lvPlayList.getSelectionModel().getSelectedItem() == null) {
                         MainController.setListSelected("!@#$");
                     }
-                    MainController.eventFromPlayList = "oneClick";
+                    MainController.eventFromOther = "oneClick";
                     MainController.setListSelected((String) lvPlayList.getSelectionModel().getSelectedItem());
 
                 }
                 if (event.getClickCount() == 2) {
-                    MainController.eventFromPlayList = "twoClick";
+                    MainController.eventFromOther = "twoClick";
                     MainController.playFileInList((String) lvPlayList.getSelectionModel().getSelectedItem());
                 }
             }
@@ -167,6 +167,7 @@ public class PlayListController {
     }
 
     public void setPlayList(){
+        this.lvPlayList.getStylesheets().add("ui/css/resultlistview.css");
         this.lvPlayList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         if(MainController.openFileExist()) {
             ObservableList<String> playNameList = FXCollections.observableList(MainController.getPlayListName());

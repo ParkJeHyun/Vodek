@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.Light;
@@ -28,6 +29,7 @@ public class ProgressController {
     @FXML private Label lbCurrent;
     @FXML private ProgressBar pbCurrent;
     @FXML private ProgressBar pbTotal;
+    @FXML private Button btStop;
 
     private Light.Distant defaultLight;
 
@@ -47,6 +49,7 @@ public class ProgressController {
         videoController = VideoController.getInstance();
         currentWorkThread = new CurrentProgress();
         convertWTT = ConvertWTT.getInstance();
+        btStop.setDisable(false);
     }
 
     public void setStage(Stage stage){
@@ -84,8 +87,11 @@ public class ProgressController {
             public void handle(MouseEvent event) {
                 if(progressThread.isAlive()){
                     progressThread.interrupt();
+                    btStop.setDisable(true);
                 }
-                stage.close();
+                else {
+                    stage.close();
+                }
                 event.consume();
             }
         });
@@ -122,14 +128,17 @@ public class ProgressController {
 
     public void stopEvent(ActionEvent event)
     {
+        btStop.setDisable(true);
         progressThread.interrupt();
     }
 
     private class CurrentProgress implements Runnable {
         DoubleProperty currentProperty;
         DoubleProperty totalProperty;
+        boolean isStop;
         @Override
         public void run() {
+            isStop = false;
             while (!progressThread.isInterrupted()) {
                 System.out.println("Interrupt " + progressThread.isInterrupted());
                 totalProperty = new SimpleDoubleProperty(inputFIleList.size());
@@ -138,6 +147,7 @@ public class ProgressController {
                 totalProperty.set(0.0);
                 for (int i = 0; i < inputFIleList.size(); i++) {
                     if(progressThread.isInterrupted()){
+                        isStop = true;
                         break;
                     }
                     File currentFIle = inputFIleList.get(i);
@@ -154,6 +164,7 @@ public class ProgressController {
 
                     for (int k = 0; k < divideFileNum; k++) {
                         if(progressThread.isInterrupted()){
+                            isStop = true;
                             break;
                         }
                         try {
@@ -164,9 +175,13 @@ public class ProgressController {
                         currentProperty.set((double) k / (double) divideFileNum);
                     }
                     convertWTT.writeTxt(currentFIle.getPath().replace(currentFIle.getName(), "") + currentFIle.getName().split("[.]")[0]);
-
-                    setMainTextArea(currentFIle.getName() + "#complete");
-                    totalProperty.set((double) (i + 1) / (double) inputFIleList.size());
+                    if(isStop) {
+                        setMainTextArea(currentFIle.getName() + "#stop");
+                    }
+                    else{
+                        setMainTextArea(currentFIle.getName() + "#complete");
+                        totalProperty.set((double) (i + 1) / (double) inputFIleList.size());
+                    }
                 }
                 break;
             }

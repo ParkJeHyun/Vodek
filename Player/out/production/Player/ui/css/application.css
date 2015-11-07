@@ -11,11 +11,11 @@
     -fx-font-size: 13px;
     -fx-font-weight: bold;
     -fx-text-fill: #FFFFFF;
-    -fx-effect: dropshadow( gaussian, rgba(255,255,255,0.5), 0,0,0,1)
 }
 
 .label-text *.text{
-    -fx-font-color : #EB4F60;
+    -fx-font-color : #FFFFFF;
+    -fx-text-fill : #FFFFFF;
 }
 
 .pink {

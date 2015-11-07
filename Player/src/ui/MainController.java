@@ -76,7 +76,7 @@ public class MainController {
 
     private static int listSelected;
 
-    public static String eventFromPlayList;
+    public static String eventFromOther;
     public static WaitEvent wating;
 
     private boolean isMaxmize;
@@ -87,7 +87,6 @@ public class MainController {
     private double defaltStageWidth;
     private double defaltStageHeight;
 
-    private double pastVolume;
     private boolean voulmeBtnFlag;
     private static ArrayList<File> openFileList;
 
@@ -105,7 +104,7 @@ public class MainController {
     private ArrayList<ScriptData> searchResultSet;
 
     @FXML public void initialize(){
-        eventFromPlayList = "none";
+        eventFromOther = "none";
         wating = new WaitEvent();
 
         openFileList = new ArrayList<File>();
@@ -525,9 +524,8 @@ public class MainController {
                 }
                 else {
                     voulmeBtnFlag = true;
-                    pastVolume = sdVolume.getValue();
                     if(player!=null) {
-                        player.setMute(false);
+                        player.setMute(true);
                     }
                     ivVolume.setFitWidth(20.0);
                     ivVolume.setFitHeight(20.0);
@@ -648,14 +646,21 @@ public class MainController {
         });
     }
 
+    public void enterEvent(){
+        if (tfKeyword.getText().length() != 0) {
+            searchResultSet = playController.getSearchResult(tfKeyword.getText());
+            setResultList();
+        }
+    }
+
     private void setResultList(){
         ObservableList observableList = FXCollections.observableArrayList();
         observableList.setAll(this.searchResultSet);
-
+        lvResult.getStylesheets().add("ui/css/resultlistview.css");
         lvResult.setItems(observableList);
-        lvResult.setPrefHeight(50 * searchResultSet.size());
-        lvResult.setMinHeight(50 * searchResultSet.size());
-        lvResult.setMinHeight(50 * searchResultSet.size());
+//        lvResult.setPrefHeight(50 * searchResultSet.size());
+//        lvResult.setMinHeight(50 * searchResultSet.size());
+//        lvResult.setMinHeight(50 * searchResultSet.size());
         lvResult.setCellFactory(new Callback<ListView<ScriptData>, ListCell<ScriptData>>() {
             @Override
             public ListCell<ScriptData> call(ListView<ScriptData> param) {
@@ -899,8 +904,8 @@ public class MainController {
         }
     }
 
-    public static void getPlayListEvent(String event){
-        eventFromPlayList = event;
+    public static void getOtherControllerEvent(String event){
+        eventFromOther = event;
         wating.run();
     }
 
@@ -908,7 +913,7 @@ public class MainController {
 
         @Override
         public void run() {
-            if(eventFromPlayList.equals("twoClick")){
+            if(eventFromOther.equals("twoClick")){
                 if(playStatus == MediaPlayer.Status.PLAYING){
                     player.stop();
                     ivPlay.setImage(new Image("ui/img/pause_icon.png"));
@@ -921,6 +926,16 @@ public class MainController {
                 player.setAutoPlay(true);
                 playStatus = MediaPlayer.Status.PLAYING;
                 mvPlay.setMediaPlayer(player);
+            }
+            if(eventFromOther.contains("Move")){
+                String moveString = eventFromOther.split("[#]")[1];
+                for(int i=0;i<searchResultSet.size();i++){
+                    if(moveString.equals(searchResultSet.get(i).getTimeString())){
+                        Duration jumpDuration = Duration.seconds(searchResultSet.get(i).getTimeSec());
+                        player.seek(jumpDuration);
+                        updateValues();
+                    }
+                }
             }
         }
     }

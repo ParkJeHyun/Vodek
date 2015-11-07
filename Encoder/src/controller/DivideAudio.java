@@ -30,6 +30,7 @@ public class DivideAudio {
             ArrayList<Integer> cutSpotSet = findCutSpot(inputFile);
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputFile);
             AudioFormat format = audioInputStream.getFormat();
+
             int size = 0;
             long past = 0;
             long writeSize = 0;
@@ -41,7 +42,7 @@ public class DivideAudio {
                 nowSize += writeSize;
                 past = cutSpot;
 
-                if(nowSize <= 5*format.getFrameRate()){
+                if(nowSize <= 7*format.getFrameRate()){
                     continue;
                 }
 

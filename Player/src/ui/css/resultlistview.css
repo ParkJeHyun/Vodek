@@ -1,0 +1,11 @@
+.list-cell:filled {
+    -fx-background-color:#282828;
+}
+
+.list-cell:selected{
+    -fx-background-color:#505050;
+}
+
+.list-cell:empty{
+    -fx-background-color:#282828;
+}

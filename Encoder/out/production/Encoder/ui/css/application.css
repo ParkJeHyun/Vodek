@@ -1,25 +1,19 @@
+
+
 .root{
-	-fx-background-color:#282828;
+	-fx-background-color:#505050;
 }
 
 .bar{
-	-fx-background-color:#505050;
+	-fx-background-color:#282828;
 }
 
 .textbar{
 	-fx-background-color:#282828;
-    -fx-font-size: 13px;
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-text-fill: #FFFFFF;
-}
-
-.label-text *.text{
-    -fx-font-color : #FFFFFF;
-    -fx-text-fill : #FFFFFF;
-}
-
-.pink {
-    -fx-background-color:#EB4F60;
+    -fx-text-fill: #909090;
+    -fx-effect: dropshadow( gaussian, rgba(255,255,255,0.5), 0,0,0,1)
 }
 
 .listview{
@@ -32,7 +26,6 @@
 .texttitle {
     -fx-background-color: #e8e8e8;
     -fx-border-color: #282828;
-    -fx-border-width: 1px ;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-text-alignment: center;
@@ -40,7 +33,6 @@
 }
 
 .textbody {
-    -fx-border-width: 1px ;
     -fx-border-color: #282828;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
@@ -52,15 +44,8 @@
 	-fx-background-color:#282828;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-text-alignment: center;
+
     -fx-text-fill: #909090;
     -fx-effect: dropshadow( gaussian, rgba(255,255,255,0.5), 0,0,0,1)
 }
 
-.search-button {
-    -fx-focus-color: #505050;
-    -fx-background-insets: 0, 0, 0, 0;
-    fx-background-color:#505050;
-    -fx-background-image : url('../img/ic_action_search_gray.png');
-    -fx-background-size : cover;
-}

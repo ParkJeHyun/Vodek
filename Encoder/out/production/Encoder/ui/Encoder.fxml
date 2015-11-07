@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainController">
+    <top>
+        <GridPane fx:id="gpWindow" styleClass="bar" stylesheets="@css/application.css" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label text="Vodek-Encoder" textFill="WHITE" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets bottom="2.0" left="5.0" top="2.0" />
+                    </GridPane.margin>
+                </Label>
+                <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                    <children>
+                        <ImageView fx:id="ivMinimize" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@img/minimize_icon.png" />
+                            </image>
+                            <HBox.margin>
+                                <Insets right="1.5" />
+                            </HBox.margin>
+                        </ImageView>
+                        <ImageView fx:id="ivMaximize" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@img/maximize_icon.png" />
+                            </image>
+                            <HBox.margin>
+                                <Insets left="1.5" right="1.5" />
+                            </HBox.margin>
+                        </ImageView>
+                        <ImageView fx:id="ivExit" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@img/exit_icon.png" />
+                            </image>
+                            <HBox.margin>
+                                <Insets left="1.5" right="3.0" />
+                            </HBox.margin>
+                        </ImageView>
+                    </children>
+                    <GridPane.margin>
+                        <Insets right="5.0" top="5.0" />
+                    </GridPane.margin>
+                </HBox>
+            </children>
+        </GridPane>
+    </top>
+    <center>
+        <GridPane styleClass="root" stylesheets="@css/application.css">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" percentHeight="70.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <BorderPane prefHeight="200.0" prefWidth="200.0" styleClass="root" stylesheets="@./css/application.css">
+                    <center>
+                        <ListView fx:id="lvInputFileList" prefHeight="200.0" prefWidth="200.0" styleClass="listview" stylesheets="@./css/application.css" BorderPane.alignment="CENTER">
+                            <BorderPane.margin>
+                                <Insets top="1.0" />
+                            </BorderPane.margin>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></ListView>
+                    </center>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+               <top>
+                  <TextField editable="false" prefHeight="40.0" styleClass="textbar" stylesheets="@./css/application.css" text="입력 파일" BorderPane.alignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></TextField>
+               </top>
+               <bottom>
+                  <GridPane prefHeight="35.0" styleClass="bar" stylesheets="@css/application.css" BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                         <ImageView fx:id="ivPlay" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                             <image>
+                                 <Image url="@img/play_icon.png" />
+                             </image>
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                         </ImageView>
+                         <HBox alignment="TOP_RIGHT" styleClass="bar" stylesheets="@css/application.css" GridPane.columnIndex="1">
+                             <padding>
+                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                             </padding>
+                           <children>
+                                 <ImageView fx:id="ivAdd" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                     <image>
+                                         <Image url="@img/add_icon.png" />
+                                     </image>
+                                 <HBox.margin>
+                                    <Insets right="5.0" top="3.0" />
+                                 </HBox.margin>
+                                 </ImageView>
+                                 <ImageView fx:id="ivMinus" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                     <image>
+                                         <Image url="@img/minus_icon.png" />
+                                     </image>
+                                 <HBox.margin>
+                                    <Insets right="5.0" top="3.0" />
+                                 </HBox.margin>
+                                 </ImageView>
+                           </children>
+                         </HBox>
+                     </children>
+                  </GridPane>
+               </bottom>
+                </BorderPane>
+                <BorderPane prefHeight="200.0" prefWidth="300.0" GridPane.columnIndex="1">
+                    <top>
+                        <TextField editable="false" prefHeight="40.0" styleClass="textbar" stylesheets="@./css/application.css" text="결과 파일" BorderPane.alignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></TextField>
+                    </top>
+                    <center>
+                        <ListView fx:id="lvOutputFileList" prefHeight="200.0" prefWidth="200.0" styleClass="listview" stylesheets="@./css/application.css" BorderPane.alignment="CENTER">
+                            <BorderPane.margin>
+                                <Insets top="1.0" />
+                            </BorderPane.margin>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></ListView>
+                    </center>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                </BorderPane>
+                <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                    <top>
+                        <TextField editable="false" prefHeight="40.0" styleClass="textbar" stylesheets="@./css/application.css" text="LOG" BorderPane.alignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></TextField>
+                    </top>
+                    <center>
+                        <TextArea fx:id="taLog" editable="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" styleClass="textarea" stylesheets="@./css/application.css" BorderPane.alignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding></TextArea>
+                    </center>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+                </BorderPane>
+                <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <top>
+                        <TextField editable="false" prefHeight="40.0" styleClass="textbar" stylesheets="@./css/application.css" text="파일 정보" BorderPane.alignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></TextField>
+                    </top>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </padding>
+                    <center>
+                        <GridPane styleClass="root" stylesheets="@css/application.css" BorderPane.alignment="CENTER">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="35.0" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="65.0" prefWidth="100.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <TextField alignment="CENTER" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="texttitle" stylesheets="@./css/application.css" text="파 일 명">
+                                    <cursor>
+                                        <Cursor fx:constant="DEFAULT" />
+                                    </cursor>
+                                    <GridPane.margin>
+                                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                    </GridPane.margin>
+                                    <padding>
+                                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                    </padding></TextField>
+                                <TextField alignment="CENTER" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="texttitle" stylesheets="@./css/application.css" text="재생 시간" GridPane.rowIndex="1">
+                                    <cursor>
+                                        <Cursor fx:constant="DEFAULT" />
+                                    </cursor>
+                           <GridPane.margin>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </GridPane.margin>
+                           <padding>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </padding></TextField>
+                                <TextField alignment="CENTER" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="texttitle" stylesheets="@./css/application.css" text="용량" GridPane.rowIndex="2">
+                                    <cursor>
+                                        <Cursor fx:constant="DEFAULT" />
+                                    </cursor>
+                                    <padding>
+                                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                    </padding>
+                           <GridPane.margin>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </GridPane.margin></TextField>
+                                <TextField fx:id="tfFilename" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1">
+                                    <cursor>
+                                        <Cursor fx:constant="DEFAULT" />
+                                    </cursor>
+                                    <padding>
+                                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                    </padding>
+                           <GridPane.margin>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </GridPane.margin></TextField>
+                                <TextField fx:id="tfFiletime" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <cursor>
+                                        <Cursor fx:constant="DEFAULT" />
+                                    </cursor>
+                                    <padding>
+                                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                    </padding>
+                           <GridPane.margin>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </GridPane.margin></TextField>
+                                <TextField fx:id="tfFilesize" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textbody" stylesheets="@./css/application.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <cursor>
+                                        <Cursor fx:constant="DEFAULT" />
+                                    </cursor>
+                                    <padding>
+                                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                                    </padding>
+                           <GridPane.margin>
+                              <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                           </GridPane.margin></TextField>
+                            </children>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                        </GridPane>
+                    </center>
+                </BorderPane>
+            </children>
+        </GridPane>
+    </center>
+</BorderPane>
