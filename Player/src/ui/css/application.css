@@ -18,6 +18,11 @@
     -fx-text-fill : #FFFFFF;
 }
 
+.end_label-text *.text{
+    -fx-font-color : #F2F2F2;
+    -fx-text-fill : #F2F2F2;
+}
+
 .pink {
     -fx-background-color:#EB4F60;
 }

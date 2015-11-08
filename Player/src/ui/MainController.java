@@ -46,6 +46,7 @@ public class MainController {
     @FXML private ImageView ivMaximize;
     @FXML private ImageView ivExit;
     //Center
+    @FXML private BorderPane bpPlayer;
     @FXML private GridPane gpRoot;
     @FXML private MediaView mvPlay;
     //Bottom Controller
@@ -830,7 +831,7 @@ public class MainController {
             Platform.runLater(new Runnable() {
                 public void run() {
                     Duration currentTime = player.getCurrentTime();
-                    lbCurrent.setText(formatTime(currentTime, duration).split("[#]")[0]);
+                    lbCurrent.setText(formatTime(currentTime, duration).split("[#]")[0]+" / ");
                     lbEnd.setText(formatTime(currentTime, duration).split("[#]")[1]);
                     sdTime.setDisable(duration.isUnknown());
                     if (!sdTime.isDisabled() && duration.greaterThan(Duration.ZERO) && !sdTime.isValueChanging()) {
@@ -849,16 +850,16 @@ public class MainController {
         rootPane.setMaxWidth(stage.getWidth());
 
         if(searchFlag){
-            gpRoot.getColumnConstraints().get(0).setMinWidth(stage.getWidth() - 250.0d);
-            gpRoot.getColumnConstraints().get(0).setPrefWidth(stage.getWidth() - 250.0d);
-            gpRoot.getColumnConstraints().get(0).setMaxWidth(stage.getWidth() - 250.0d);
+            bpPlayer.setMinWidth(stage.getWidth() - 250.0d);
+            bpPlayer.setMaxWidth(stage.getWidth() - 250.0d);
+            bpPlayer.setPrefWidth(stage.getWidth() - 250.0d);
             gpRoot.getColumnConstraints().get(1).setPrefWidth(250.0d);
             gpRoot.getColumnConstraints().get(1).setMaxWidth(250.0d);
         }
         else{
-            gpRoot.getColumnConstraints().get(0).setMinWidth(stage.getWidth());
-            gpRoot.getColumnConstraints().get(0).setPrefWidth(stage.getWidth());
-            gpRoot.getColumnConstraints().get(0).setMaxWidth(stage.getWidth());
+            bpPlayer.setMinWidth(stage.getWidth());
+            bpPlayer.setMaxWidth(stage.getWidth());
+            bpPlayer.setPrefWidth(stage.getWidth());
             gpRoot.getColumnConstraints().get(1).setPrefWidth(0.0);
             gpRoot.getColumnConstraints().get(1).setMaxWidth(0.0);
         }

@@ -140,7 +140,6 @@ public class ProgressController {
         public void run() {
             isStop = false;
             while (!progressThread.isInterrupted()) {
-                System.out.println("Interrupt " + progressThread.isInterrupted());
                 totalProperty = new SimpleDoubleProperty(inputFIleList.size());
                 pbTotal.progressProperty().unbind();
                 pbTotal.progressProperty().bind(totalProperty);

@@ -3,8 +3,8 @@ package controller;
 import statics.staticData;
 
 import javax.sound.sampled.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
 /**
@@ -15,6 +15,8 @@ public class DivideAudio {
 
     private long bufferSize;
     private static boolean flag = true;
+
+    private RandomAccessFile seeker;
 
     public static DivideAudio getInstance(){
         if(instance==null){
@@ -30,6 +32,7 @@ public class DivideAudio {
             ArrayList<Integer> cutSpotSet = findCutSpot(inputFile);
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(inputFile);
             AudioFormat format = audioInputStream.getFormat();
+            AudioInputStream preInput = new AudioInputStream(audioInputStream,format,(long)(3*format.getFrameRate()));
 
             int size = 0;
             long past = 0;
@@ -51,8 +54,10 @@ public class DivideAudio {
                 }
 
                 File spilitWav = new File(dir.getPath() + "/output" + (divideFileNum + "") + ".wav");
+                AudioSystem.write(preInput,AudioFileFormat.Type.WAVE,spilitWav);
                 AudioInputStream input = new AudioInputStream(audioInputStream,format,nowSize);
                 AudioSystem.write(input, AudioFileFormat.Type.WAVE, spilitWav);
+
                 size += spilitWav.length();
                 divideFileNum++;
                 writeSize = 0;
