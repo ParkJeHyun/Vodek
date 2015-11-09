@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="rootPane" maxHeight="50.0" maxWidth="240.0" minHeight="50.0" minWidth="185.0" prefHeight="50.0" prefWidth="235.0" styleClass="bar" stylesheets="@css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane fx:id="rootPane" maxHeight="50.0" maxWidth="200.0" minHeight="50.0" minWidth="185.0" prefHeight="50.0" prefWidth="200.0" styleClass="bar" stylesheets="@css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
       <ColumnConstraints />
   </columnConstraints>
@@ -39,4 +40,7 @@
    <cursor>
       <Cursor fx:constant="HAND" />
    </cursor>
+   <padding>
+      <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+   </padding>
 </GridPane>

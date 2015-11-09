@@ -657,7 +657,7 @@ public class MainController {
     private void setResultList(){
         ObservableList observableList = FXCollections.observableArrayList();
         observableList.setAll(this.searchResultSet);
-        lvResult.getStylesheets().add("ui/css/resultlistview.css");
+        lvResult.getStylesheets().add("ui/css/resultlist.css");
         lvResult.setItems(observableList);
 //        lvResult.setPrefHeight(50 * searchResultSet.size());
 //        lvResult.setMinHeight(50 * searchResultSet.size());

@@ -1,9 +1,12 @@
 .list-cell:filled {
     -fx-background-color:#282828;
+    -fx-font-color:#E4E4E4;
+    -fx-text-fill:#C9C9C9;
 }
 
 .list-cell:selected{
     -fx-background-color:#505050;
+    -fx-text-fill:#99FF66;
 }
 
 .list-cell:empty{

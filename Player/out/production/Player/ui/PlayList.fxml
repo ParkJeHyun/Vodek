@@ -54,7 +54,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ListView fx:id="lvPlayList" stylesheets="@css/application.css" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <ListView fx:id="lvPlayList" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <styleClass>
                   <String fx:value="root" />
                   <String fx:value="label-text" />

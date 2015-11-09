@@ -167,7 +167,7 @@ public class PlayListController {
     }
 
     public void setPlayList(){
-        this.lvPlayList.getStylesheets().add("ui/css/resultlistview.css");
+        this.lvPlayList.getStylesheets().add("ui/css/playlist.css");
         this.lvPlayList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         if(MainController.openFileExist()) {
             ObservableList<String> playNameList = FXCollections.observableList(MainController.getPlayListName());
