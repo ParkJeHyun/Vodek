@@ -850,6 +850,7 @@ public class MainController {
         rootPane.setMaxWidth(stage.getWidth());
 
         if(searchFlag){
+            mvPlay.setFitWidth(stage.getWidth() - 280.0d);
             bpPlayer.setMinWidth(stage.getWidth() - 250.0d);
             bpPlayer.setMaxWidth(stage.getWidth() - 250.0d);
             bpPlayer.setPrefWidth(stage.getWidth() - 250.0d);
@@ -857,6 +858,7 @@ public class MainController {
             gpRoot.getColumnConstraints().get(1).setMaxWidth(250.0d);
         }
         else{
+            mvPlay.setFitWidth(stage.getWidth() - 30.0d);
             bpPlayer.setMinWidth(stage.getWidth());
             bpPlayer.setMaxWidth(stage.getWidth());
             bpPlayer.setPrefWidth(stage.getWidth());
