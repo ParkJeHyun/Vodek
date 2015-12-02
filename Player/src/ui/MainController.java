@@ -55,6 +55,7 @@ public class MainController {
     @FXML private Label lbCurrent;
     @FXML private Label lbEnd;
     @FXML private Slider sdTime;
+    @FXML private ProgressBar progressBar;
     @FXML private ImageView ivSearchTab;
     @FXML private ImageView ivList;
     @FXML private ImageView ivVolume;
@@ -205,6 +206,13 @@ public class MainController {
                     // multiply duration by percentage calculated by slider position
                     player.seek(duration.multiply(sdTime.getValue() / 100.0));
                 }
+
+            }
+        });
+        sdTime.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                progressBar.setProgress(newValue.doubleValue() / 100.0);
             }
         });
 

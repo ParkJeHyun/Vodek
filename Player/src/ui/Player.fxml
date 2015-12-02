@@ -129,12 +129,13 @@
                                             </HBox.margin>
                                         </ImageView>
                                         <Slider fx:id="sdVolume" styleClass="scroll-bar:horizontal" stylesheets="@css/slider.css"  blockIncrement="5.0" value="100.0" HBox.hgrow="NEVER">
-                                 <effect>
-                                    <BoxBlur />
-                                 </effect>
-                                 <HBox.margin>
-                                    <Insets top="2.0" />
-                                 </HBox.margin></Slider>
+                                             <effect>
+                                                <BoxBlur />
+                                             </effect>
+                                             <HBox.margin>
+                                                <Insets top="2.0" />
+                                             </HBox.margin>
+                                        </Slider>
                                     </children>
                                     <GridPane.margin>
                                         <Insets bottom="2.0" right="5.0" top="3.0" />
@@ -164,12 +165,14 @@
                                     </GridPane.margin>
                                 </HBox>
                                 <HBox prefHeight="100.0" prefWidth="200.0" styleClass="bar" stylesheets="@css/application.css" GridPane.hgrow="ALWAYS">
-                                    <children>
-                                        <Slider fx:id="sdTime" HBox.hgrow="ALWAYS">
-                                 <effect>
-                                    <BoxBlur />
-                                 </effect></Slider>
-                                    </children>
+                                    <StackPane HBox.hgrow="ALWAYS">
+                                        <ProgressBar fx:id="progressBar" minWidth="460.0" maxWidth="460.0" progress="0.0">
+
+                                        </ProgressBar>
+                                        <Slider fx:id="sdTime">
+
+                                        </Slider>
+                                    </StackPane>
                                     <GridPane.margin>
                                         <Insets bottom="2.0" top="3.0" />
                                     </GridPane.margin>
