@@ -166,10 +166,10 @@
                                 </HBox>
                                 <HBox prefHeight="100.0" prefWidth="200.0" styleClass="bar" stylesheets="@css/application.css" GridPane.hgrow="ALWAYS">
                                     <StackPane HBox.hgrow="ALWAYS">
-                                        <ProgressBar fx:id="progressBar" minWidth="460.0" maxWidth="460.0" progress="0.0">
+                                        <ProgressBar fx:id="progressBar" prefWidth="800.0" prefHeight="5.0" progress="0.0">
 
                                         </ProgressBar>
-                                        <Slider fx:id="sdTime" background="null">
+                                        <Slider fx:id="sdTime">
 
                                         </Slider>
                                     </StackPane>
@@ -193,7 +193,7 @@
                                     <Insets left="5.0" />
                                  </HBox.margin>
                                         </Label>
-                                        <Label fx:id="lbEnd" styleClass="end_label-text" stylesheets="@css/application.css" text="00:00:00" HBox.hgrow="NEVER">
+                                        <Label fx:id="lbEnd" styleClass="end_label-text" stylesheets="@css/application.css" text="00:00:00" HBox.hgrow="NEVER" textFill="white">
                                             <font>
                                                 <Font size="10.0" />
                                             </font>
