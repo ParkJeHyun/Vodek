@@ -17,7 +17,7 @@ public class ConvertWTT {
     public static ConvertWTT instance = null;
     private Configuration configuration;
     private StreamSpeechRecognizer recognizer;
-    private int hour=0,min=0,sec=0;
+    private int hour=0,min=0,sec=0,num=300;
     private String resultsTxt =  "";
     private File file;
 
@@ -48,6 +48,10 @@ public class ConvertWTT {
 
         if(i==0) {
             resultsTxt = "";
+            hour=0;
+            sec=0;
+            min=0;
+            num=10;
         }
 
         try {
@@ -64,8 +68,20 @@ public class ConvertWTT {
 
         frameSize = (int)format.getFrameRate();
         int time = (int)audioInputStream.getFrameLength()/frameSize;
-
-        resultsTxt = resultsTxt+hour+":"+min+":"+sec+"# ";
+        if(num!=i) {
+            resultsTxt = resultsTxt +"\n"+ hour + ":" + min + ":" + sec + "# ";
+            if (sec + time >= 60) {
+                min += (sec + time) / 60;
+                sec = time % 60;
+                if (min >= 60) {
+                    hour += min / 60;
+                    min %= 60;
+                }
+            } else {
+                sec += time;
+            }
+            num=i;
+        }
         SpeechResult result;
 
         while ((result = recognizer.getResult()) != null) {
@@ -74,20 +90,10 @@ public class ConvertWTT {
         }
 
         recognizer.stopRecognition();
-        resultsTxt = resultsTxt + "\n";
-
-        if(sec+time>=60) {
-            min += (sec+time)/60;
-            sec = time%60;
-            if(min>=60)
-            {
-                hour+=min/60;
-                min%=60;
-            }
-        }
-        else {
-            sec += time;
-        }
+//        if(!(resultsTxt.split("[#]")[1].equals("  "))){
+//            resultsTxt = resultsTxt + "\n";
+//        }
+//        resultsTxt = resultsTxt + "\n";
 //        System.out.println(resultsTxt);
     }
     public void writeTxt(String name)

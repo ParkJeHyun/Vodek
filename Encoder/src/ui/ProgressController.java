@@ -132,6 +132,10 @@ public class ProgressController {
         progressThread.interrupt();
     }
 
+    public void setBtn(){
+        btStop.setDisable(false);
+    }
+
     private class CurrentProgress implements Runnable {
         DoubleProperty currentProperty;
         DoubleProperty totalProperty;
@@ -172,8 +176,11 @@ public class ProgressController {
                             e.printStackTrace();
                         }
                         currentProperty.set((double) k / (double) divideFileNum);
+                        totalProperty.set((double)(i) / (double)inputFIleList.size() + ((double)k / ((double)divideFileNum*inputFIleList.size())));
                     }
                     convertWTT.writeTxt(currentFIle.getPath().replace(currentFIle.getName(), "") + currentFIle.getName().split("[.]")[0]);
+                   //new File(currentFIle.getPath().replace(currentFIle.getName(), "") + currentFIle.getName().split("[.]")[0]).delete();
+                   //new File(currentFIle.getPath().replace(currentFIle.getName(), "") + currentFIle.getName().split("[.]")[0]+".wav").delete();
                     if(isStop) {
                         setMainTextArea(currentFIle.getName() + "#stop");
                     }
