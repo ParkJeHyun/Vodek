@@ -239,9 +239,9 @@ public class MainController {
 //        this.ivStop.setEffect(new Lighting(defaultLight));
 //        this.ivFast.setEffect(new Lighting(defaultLight));
 //        this.ivSlow.setEffect(new Lighting(defaultLight));
-//        this.ivExit.setEffect(new Lighting(defaultLight));
-//        this.ivMaximize.setEffect(new Lighting(defaultLight));
-//        this.ivMinimize.setEffect(new Lighting(defaultLight));
+        this.ivExit.setEffect(new Lighting(defaultLight));
+        this.ivMaximize.setEffect(new Lighting(defaultLight));
+        this.ivMinimize.setEffect(new Lighting(defaultLight));
 //        this.ivSearch.setEffect(new Lighting(defaultLight));
 
         setMinimizeEvent();

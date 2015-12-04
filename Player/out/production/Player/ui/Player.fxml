@@ -219,7 +219,7 @@
                                         </ImageView>
                                         <ImageView fx:id="ivStop" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@img/stop_icon.png" />
+                                                <Image url="@img/stop_icon_off.png" />
                                             </image>
                                             <HBox.margin>
                                                 <Insets left="10.0" right="5.0" />
