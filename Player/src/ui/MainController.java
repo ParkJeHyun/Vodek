@@ -227,7 +227,7 @@ public class MainController {
 
     private void settingIvEvnet(){
         this.enterLight = new Light.Distant();
-        this.enterLight.setColor(new Color(0.0,1.0,0.0,1.0));
+        this.enterLight.setColor(new Color(0.2,0.7,0.9,1.0));
 
         this.defaultLight = new Light.Distant();
         this.defaultLight.setColor(new Color(1.0,1.0,1.0,1.0));
