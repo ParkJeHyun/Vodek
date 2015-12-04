@@ -105,6 +105,31 @@ public class MainController {
 
     private ArrayList<ScriptData> searchResultSet;
 
+    private Image imgStopOn;
+    private Image imgStopOff;
+    private Image imgPlayOn;
+    private Image imgPlayOff;
+    private Image imgAddOn;
+    private Image imgAddOff;
+    private Image imgMinusOn;
+    private Image imgMinusOff;
+    private Image imgFastOn;
+    private Image imgFastOff;
+    private Image imgSlowOn;
+    private Image imgSlowOff;
+    private Image imgListOn;
+    private Image imgListOff;
+    private Image imgMuteOn;
+    private Image imgMuteOff;
+    private Image imgPauseOn;
+    private Image imgPauseOff;
+    private Image imgSearchOn;
+    private Image imgSearchOff;
+    private Image imgSearchTabOn;
+    private Image imgSearchTabOff;
+    private Image imgVolumeOn;
+    private Image imgVolumeOff;
+
     @FXML public void initialize(){
         eventFromOther = "none";
         wating = new WaitEvent();
@@ -118,6 +143,31 @@ public class MainController {
         this.playStatus = MediaPlayer.Status.READY;
         this.playController = PlayController.getInstance();
         this.searchResultSet = new ArrayList<ScriptData>();
+
+        imgStopOn = new Image("ui/img/stop_icon_on.png");
+        imgStopOff = new Image("ui/img/stop_icon_off.png");
+        imgPlayOn = new Image("ui/img/play_icon_on.png");
+        imgPlayOff = new Image("ui/img/play_icon_off.png");
+        imgAddOn = new Image("ui/img/add_icon_on.png");
+        imgAddOff = new Image("ui/img/add_icon_off.png");
+        imgMinusOn = new Image("ui/img/minus_icon_on.png");
+        imgMinusOff = new Image("ui/img/minus_icon_off.png");
+        imgFastOn = new Image("ui/img/fast_icon_on.png");
+        imgFastOff = new Image("ui/img/fast_icon_off.png");
+        imgSlowOn = new Image("ui/img/slow_icon_on.png");
+        imgSlowOff = new Image("ui/img/slow_icon_off.png");
+        imgListOn = new Image("ui/img/list_icon_on.png");
+        imgListOff = new Image("ui/img/list_icon_off.png");
+        imgMuteOn = new Image("ui/img/mute_icon_on.png");
+        imgMuteOff = new Image("ui/img/mute_icon_off.png");
+        imgPauseOn = new Image("ui/img/pause_icon_on.png");
+        imgPauseOff = new Image("ui/img/pause_icon_off.png");
+        imgSearchOn = new Image("ui/img/search_icon_on.png");
+        imgSearchOff = new Image("ui/img/search_icon_off.png");
+        imgSearchTabOn = new Image("ui/img/search_tab_on.png");
+        imgSearchTabOff = new Image("ui/img/search_tab_off.png");
+        imgVolumeOn = new Image("ui/img/volume_icon_on.png");
+        imgVolumeOff = new Image("ui/img/volume_icon_off.png");
 
         lvResult.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -232,17 +282,9 @@ public class MainController {
         this.defaultLight = new Light.Distant();
         this.defaultLight.setColor(new Color(1.0,1.0,1.0,1.0));
 
-//        this.ivList.setEffect(new Lighting(defaultLight));
-//        this.ivSearchTab.setEffect(new Lighting(defaultLight));
-//        this.ivVolume.setEffect(new Lighting(defaultLight));
-//        this.ivPlay.setEffect(new Lighting(defaultLight));
-//        this.ivStop.setEffect(new Lighting(defaultLight));
-//        this.ivFast.setEffect(new Lighting(defaultLight));
-//        this.ivSlow.setEffect(new Lighting(defaultLight));
-//        this.ivExit.setEffect(new Lighting(defaultLight));
-//        this.ivMaximize.setEffect(new Lighting(defaultLight));
-//        this.ivMinimize.setEffect(new Lighting(defaultLight));
-//        this.ivSearch.setEffect(new Lighting(defaultLight));
+        this.ivExit.setEffect(new Lighting(defaultLight));
+        this.ivMaximize.setEffect(new Lighting(defaultLight));
+        this.ivMinimize.setEffect(new Lighting(defaultLight));
 
         setMinimizeEvent();
         setMaximizeEvent();
@@ -356,17 +398,13 @@ public class MainController {
         this.ivPlay.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                //ivPlay.setEffect(new Lighting(enterLight));
-                Image image = new Image("/ui/img/play_icon_on.png");
-                ivPlay.setImage(image);
+                ivPlay.setImage(imgPlayOn);
             }
         });
         this.ivPlay.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                //ivPlay.setEffect(new Lighting(defaultLight));
-                Image image = new Image("/ui/img/play_icon_off.png");
-                ivPlay.setImage(image);
+                ivPlay.setImage(imgPlayOff);
             }
         });
         this.ivPlay.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -428,14 +466,13 @@ public class MainController {
         this.ivStop.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivStop.setEffect(new Lighting(enterLight));
+                ivStop.setImage(imgStopOn);
             }
         });
         this.ivStop.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivStop.setEffect(new Lighting(defaultLight));
-
+                ivStop.setImage(imgStopOff);
             }
         });
         this.ivStop.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -457,13 +494,13 @@ public class MainController {
         this.ivFast.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivFast.setEffect(new Lighting(enterLight));
+                ivFast.setImage(imgFastOn);
             }
         });
         this.ivFast.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivFast.setEffect(new Lighting(defaultLight));
+                ivFast.setImage(imgFastOff);
             }
         });
         this.ivFast.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -486,13 +523,13 @@ public class MainController {
         this.ivSlow.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivSlow.setEffect(new Lighting(enterLight));
+                ivSlow.setImage(imgSlowOn);
             }
         });
         this.ivSlow.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivSlow.setEffect(new Lighting(defaultLight));
+                ivSlow.setImage(imgSlowOff);
             }
         });
         this.ivSlow.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -515,13 +552,13 @@ public class MainController {
         this.ivVolume.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivVolume.setEffect(new Lighting(enterLight));
+                ivVolume.setImage(imgVolumeOn);
             }
         });
         this.ivVolume.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivVolume.setEffect(new Lighting(defaultLight));
+                ivVolume.setImage(imgVolumeOff);
             }
         });
         this.ivVolume.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -556,13 +593,13 @@ public class MainController {
         this.ivList.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivList.setEffect(new Lighting(enterLight));
+                ivList.setImage(imgListOn);
             }
         });
         this.ivList.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivList.setEffect(new Lighting(defaultLight));
+                ivList.setImage(imgListOff);
             }
         });
         this.ivList.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -594,13 +631,13 @@ public class MainController {
         this.ivSearchTab.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivSearchTab.setEffect(new Lighting(enterLight));
+                ivSearchTab.setImage(imgSearchTabOn);
             }
         });
         this.ivSearchTab.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivSearchTab.setEffect(new Lighting(defaultLight));
+                ivSearchTab.setImage(imgSearchTabOff);
             }
         });
         this.ivSearchTab.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -639,13 +676,13 @@ public class MainController {
         this.ivSearch.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivSearch.setEffect(new Lighting(enterLight));
+                ivSearch.setImage(imgSearchOn);
             }
         });
         this.ivSearch.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivSearch.setEffect(new Lighting(defaultLight));
+                ivSearch.setImage(imgSearchOff);
             }
         });
         this.ivSearch.setOnMouseClicked(new EventHandler<MouseEvent>() {

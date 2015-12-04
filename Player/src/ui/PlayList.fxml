@@ -28,7 +28,7 @@
          <children>
             <ImageView fx:id="ivAdd" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@img/add_icon.png" />
+                  <Image url="@img/add_icon_off.png" />
                </image>
                <HBox.margin>
                   <Insets left="5.0" right="5.0" />
