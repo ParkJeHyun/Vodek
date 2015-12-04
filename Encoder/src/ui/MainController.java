@@ -270,7 +270,9 @@ public class MainController {
                         fileList = addArrayList;
                     } else {
                         for (int i = 0; i < addArrayList.size(); i++) {
-                            fileList.add(addArrayList.get(i));
+                            if(!fileList.contains(addArrayList.get(i))) {
+                                fileList.add(addArrayList.get(i));
+                            }
                         }
                     }
                     setInputFileListView();
@@ -339,6 +341,7 @@ public class MainController {
 
                 if (fileList.size() != 0) {
                     callProgressbar();
+                    progressController.setBtn();
                     progressController.setFileList(fileList);
                     progressController.doProgress();
                 }
