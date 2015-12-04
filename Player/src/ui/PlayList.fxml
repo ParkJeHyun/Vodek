@@ -36,7 +36,7 @@
             </ImageView>
              <ImageView fx:id="ivMinus" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                  <image>
-                     <Image url="@img/minus_icon.png" />
+                     <Image url="@img/minus_icon_on.png" />
                  </image>
                  <HBox.margin>
                      <Insets left="5.0" right="5.0" />

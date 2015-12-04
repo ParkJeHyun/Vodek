@@ -109,18 +109,12 @@ public class MainController {
     private Image imgStopOff;
     private Image imgPlayOn;
     private Image imgPlayOff;
-    private Image imgAddOn;
-    private Image imgAddOff;
-    private Image imgMinusOn;
-    private Image imgMinusOff;
     private Image imgFastOn;
     private Image imgFastOff;
     private Image imgSlowOn;
     private Image imgSlowOff;
     private Image imgListOn;
     private Image imgListOff;
-    private Image imgMuteOn;
-    private Image imgMuteOff;
     private Image imgPauseOn;
     private Image imgPauseOff;
     private Image imgSearchOn;
@@ -129,8 +123,31 @@ public class MainController {
     private Image imgSearchTabOff;
     private Image imgVolumeOn;
     private Image imgVolumeOff;
+    private Image imgMuteOn;
+    private Image imgMuteOff;
 
     @FXML public void initialize(){
+        imgStopOn = new Image("ui/img/stop_icon_on.png");
+        imgStopOff = new Image("ui/img/stop_icon_off.png");
+        imgPlayOn = new Image("ui/img/play_icon_on.png");
+        imgPlayOff = new Image("ui/img/play_icon_off.png");
+        imgFastOn = new Image("ui/img/fast_icon_on.png");
+        imgFastOff = new Image("ui/img/fast_icon_off.png");
+        imgSlowOn = new Image("ui/img/slow_icon_on.png");
+        imgSlowOff = new Image("ui/img/slow_icon_off.png");
+        imgListOn = new Image("ui/img/list_icon_on.png");
+        imgListOff = new Image("ui/img/list_icon_off.png");
+        imgPauseOn = new Image("ui/img/pause_icon_on.png");
+        imgPauseOff = new Image("ui/img/pause_icon_off.png");
+        imgSearchOn = new Image("ui/img/search_icon_on.png");
+        imgSearchOff = new Image("ui/img/search_icon_off.png");
+        imgSearchTabOn = new Image("ui/img/search_tab_on.png");
+        imgSearchTabOff = new Image("ui/img/search_tab_off.png");
+        imgVolumeOn = new Image("ui/img/volume_icon_on.png");
+        imgVolumeOff = new Image("ui/img/volume_icon_off.png");
+        imgMuteOn = new Image("ui/img/mute_icon_on.png");
+        imgMuteOff = new Image("ui/img/mute_icon_off.png");
+
         eventFromOther = "none";
         wating = new WaitEvent();
 
@@ -143,31 +160,6 @@ public class MainController {
         this.playStatus = MediaPlayer.Status.READY;
         this.playController = PlayController.getInstance();
         this.searchResultSet = new ArrayList<ScriptData>();
-
-        imgStopOn = new Image("ui/img/stop_icon_on.png");
-        imgStopOff = new Image("ui/img/stop_icon_off.png");
-        imgPlayOn = new Image("ui/img/play_icon_on.png");
-        imgPlayOff = new Image("ui/img/play_icon_off.png");
-        imgAddOn = new Image("ui/img/add_icon_on.png");
-        imgAddOff = new Image("ui/img/add_icon_off.png");
-        imgMinusOn = new Image("ui/img/minus_icon_on.png");
-        imgMinusOff = new Image("ui/img/minus_icon_off.png");
-        imgFastOn = new Image("ui/img/fast_icon_on.png");
-        imgFastOff = new Image("ui/img/fast_icon_off.png");
-        imgSlowOn = new Image("ui/img/slow_icon_on.png");
-        imgSlowOff = new Image("ui/img/slow_icon_off.png");
-        imgListOn = new Image("ui/img/list_icon_on.png");
-        imgListOff = new Image("ui/img/list_icon_off.png");
-        imgMuteOn = new Image("ui/img/mute_icon_on.png");
-        imgMuteOff = new Image("ui/img/mute_icon_off.png");
-        imgPauseOn = new Image("ui/img/pause_icon_on.png");
-        imgPauseOff = new Image("ui/img/pause_icon_off.png");
-        imgSearchOn = new Image("ui/img/search_icon_on.png");
-        imgSearchOff = new Image("ui/img/search_icon_off.png");
-        imgSearchTabOn = new Image("ui/img/search_tab_on.png");
-        imgSearchTabOff = new Image("ui/img/search_tab_off.png");
-        imgVolumeOn = new Image("ui/img/volume_icon_on.png");
-        imgVolumeOff = new Image("ui/img/volume_icon_off.png");
 
         lvResult.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -412,13 +404,13 @@ public class MainController {
             public void handle(MouseEvent event) {
                 if (playStatus == MediaPlayer.Status.PAUSED) {
                     //Click PauseButton
-                    ivPlay.setImage(new Image("ui/img/play_icon_on.png"));
+                    ivPlay.setImage(imgPlayOn);
                     player.play();
                     playStatus = MediaPlayer.Status.PLAYING;
                     return;
                 } else if (playStatus == MediaPlayer.Status.PLAYING) {
                     //Click PlayButton
-                    ivPlay.setImage(new Image("ui/img/pause_icon.png"));
+                    ivPlay.setImage(imgPauseOff);
                     player.pause();
                     playStatus = MediaPlayer.Status.PAUSED;
                     return;
@@ -435,7 +427,7 @@ public class MainController {
                             openTextFile();
                             player.setAutoPlay(true);
                             playStatus = MediaPlayer.Status.PLAYING;
-                            ivPlay.setImage(new Image("ui/img/pause_icon.png"));
+                            ivPlay.setImage(imgPauseOn);
                             mvPlay.setMediaPlayer(player);
                         } else {
                             player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
@@ -444,7 +436,7 @@ public class MainController {
                             openTextFile();
                             player.setAutoPlay(true);
                             playStatus = MediaPlayer.Status.PLAYING;
-                            ivPlay.setImage(new Image("ui/img/pause_icon.png"));
+                            ivPlay.setImage(imgPauseOn);
                             mvPlay.setMediaPlayer(player);
                         }
                     }
@@ -481,7 +473,7 @@ public class MainController {
                 if (playStatus == MediaPlayer.Status.PLAYING) {
                     playStatus = MediaPlayer.Status.STOPPED;
                     player.stop();
-                    ivPlay.setImage(new Image("ui/img/pause_icon.png"));
+                    ivPlay.setImage(imgPauseOn);
                     stage.setWidth(defaltStageWidth);
                     stage.setHeight(defaltStageHeight);
                 }
@@ -763,7 +755,7 @@ public class MainController {
             openTextFile();
             player.setAutoPlay(true);
             playStatus = MediaPlayer.Status.PLAYING;
-            ivPlay.setImage(new Image("ui/img/pause_icon.png"));
+            ivPlay.setImage(imgPauseOn);
             this.mvPlay.setMediaPlayer(player);
         }
     }
@@ -872,10 +864,10 @@ public class MainController {
     protected void updateValues() {
 
         if(playStatus == MediaPlayer.Status.STOPPED){
-            ivPlay.setImage(new Image("ui/img/play_icon_on.png"));
+            ivPlay.setImage(imgPlayOn);
         }
         if(playStatus == MediaPlayer.Status.PLAYING){
-            ivPlay.setImage(new Image("ui/img/pause_icon.png"));
+            ivPlay.setImage(imgPauseOn);
         }
         if (lbCurrent != null && lbEnd != null && sdTime != null && sdVolume != null) {
             Platform.runLater(new Runnable() {
@@ -969,7 +961,7 @@ public class MainController {
             if(eventFromOther.equals("twoClick")){
                 if(playStatus == MediaPlayer.Status.PLAYING){
                     player.stop();
-                    ivPlay.setImage(new Image("ui/img/pause_icon.png"));
+                    ivPlay.setImage(imgPauseOn);
                     playStatus = MediaPlayer.Status.STOPPED;
                 }
                 player = new MediaPlayer(new Media(openFileList.get(currentFile).toURI().toString()));
@@ -1010,7 +1002,7 @@ public class MainController {
                 openTextFile();
                 player.setAutoPlay(true);
                 playStatus = MediaPlayer.Status.PLAYING;
-                ivPlay.setImage(new Image("ui/img/pause_icon.png"));
+                ivPlay.setImage(imgPauseOn);
                 mvPlay.setMediaPlayer(player);
             }
         }

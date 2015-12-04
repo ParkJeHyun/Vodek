@@ -10,6 +10,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -39,7 +40,17 @@ public class PlayListController {
     private double yOffset;
     private Stage stage;
 
+    private Image imgAddOn;
+    private Image imgAddOff;
+    private Image imgMinusOn;
+    private Image imgMinusOff;
+
     @FXML public void initialize() {
+        imgAddOn = new Image("ui/img/add_icon_on.png");
+        imgAddOff = new Image("ui/img/add_icon_off.png");
+        imgMinusOn = new Image("ui/img/minus_icon_on.png");
+        imgMinusOff = new Image("ui/img/minus_icon_off.png");
+
         Parent root;
         settingRootPane();
         settingIvEvnet();
@@ -68,10 +79,6 @@ public class PlayListController {
 
         this.defaultLight = new Light.Distant();
         this.defaultLight.setColor(new Color(1.0, 1.0, 1.0, 1.0));
-
-        this.ivAdd.setEffect(new Lighting(defaultLight));
-        this.ivExit.setEffect(new Lighting(defaultLight));
-        this.ivMinus.setEffect(new Lighting(defaultLight));
 
         setAddEvent();
         setExitEvent();
@@ -110,13 +117,13 @@ public class PlayListController {
         this.ivAdd.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivAdd.setEffect(new Lighting(enterLight));
+                ivAdd.setImage(imgAddOn);
             }
         });
         this.ivAdd.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivAdd.setEffect(new Lighting(defaultLight));
+                ivAdd.setImage(imgAddOff);
             }
         });
         this.ivAdd.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -146,13 +153,13 @@ public class PlayListController {
         this.ivMinus.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivMinus.setEffect(new Lighting(enterLight));
+                ivMinus.setImage(imgMinusOn);
             }
         });
         this.ivMinus.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivMinus.setEffect(new Lighting(defaultLight));
+                ivMinus.setImage(imgMinusOff);
             }
         });
         this.ivMinus.setOnMouseClicked(new EventHandler<MouseEvent>() {
