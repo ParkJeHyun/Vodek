@@ -179,7 +179,7 @@
                                 </HBox>
                                 <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
                                     <children>
-                                        <Label fx:id="lbCurrent" text="00:00:00 / " textFill="WHITE" HBox.hgrow="NEVER">
+                                        <Label fx:id="lbCurrent" text="00:00:00" HBox.hgrow="NEVER" textFill="#33B5E5">
                                             <font>
                                                 <Font size="10.0" />
                                             </font>
@@ -190,7 +190,7 @@
                                     <Insets left="5.0" />
                                  </HBox.margin>
                                         </Label>
-                                        <Label fx:id="lbEnd" styleClass="end_label-text" stylesheets="@css/application.css" text="00:00:00" HBox.hgrow="NEVER" textFill="white">
+                                        <Label fx:id="lbEnd" styleClass="end_label-text" stylesheets="@css/application.css" text=" / 00:00:00" HBox.hgrow="NEVER" textFill="white">
                                             <font>
                                                 <Font size="10.0" />
                                             </font>

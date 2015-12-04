@@ -14,8 +14,8 @@
 }
 
 .label-text *.text{
-    -fx-font-color : #FFFFFF;
-    -fx-text-fill : #FFFFFF;
+    -fx-font-color : #33B5E5;
+    -fx-text-fill : #33B5E5;
 }
 
 .end_label-text *.text{
@@ -96,12 +96,6 @@
 }
 
 .progress-bar .track {
-    /*
-    -fx-background-color:
-        -fx-box-border,
-        linear-gradient(to bottom, derive(-fx-accent,95%), derive(-fx-accent,10%)),
-        red; *//* this line is the background color of the bar */
-
     -fx-padding: 1px;
     -fx-background-insets: 0;
 }

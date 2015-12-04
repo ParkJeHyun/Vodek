@@ -14,8 +14,8 @@
 }
 
 .label-text *.text{
-    -fx-font-color : #FFFFFF;
-    -fx-text-fill : #FFFFFF;
+    -fx-font-color : #33B5E5;
+    -fx-text-fill : #33B5E5;
 }
 
 .end_label-text *.text{
