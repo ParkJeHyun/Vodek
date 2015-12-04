@@ -232,17 +232,17 @@ public class MainController {
         this.defaultLight = new Light.Distant();
         this.defaultLight.setColor(new Color(1.0,1.0,1.0,1.0));
 
-        this.ivList.setEffect(new Lighting(defaultLight));
-        this.ivSearchTab.setEffect(new Lighting(defaultLight));
-        this.ivVolume.setEffect(new Lighting(defaultLight));
-        this.ivPlay.setEffect(new Lighting(defaultLight));
-        this.ivStop.setEffect(new Lighting(defaultLight));
-        this.ivFast.setEffect(new Lighting(defaultLight));
-        this.ivSlow.setEffect(new Lighting(defaultLight));
-        this.ivExit.setEffect(new Lighting(defaultLight));
-        this.ivMaximize.setEffect(new Lighting(defaultLight));
-        this.ivMinimize.setEffect(new Lighting(defaultLight));
-        this.ivSearch.setEffect(new Lighting(defaultLight));
+//        this.ivList.setEffect(new Lighting(defaultLight));
+//        this.ivSearchTab.setEffect(new Lighting(defaultLight));
+//        this.ivVolume.setEffect(new Lighting(defaultLight));
+//        this.ivPlay.setEffect(new Lighting(defaultLight));
+//        this.ivStop.setEffect(new Lighting(defaultLight));
+//        this.ivFast.setEffect(new Lighting(defaultLight));
+//        this.ivSlow.setEffect(new Lighting(defaultLight));
+//        this.ivExit.setEffect(new Lighting(defaultLight));
+//        this.ivMaximize.setEffect(new Lighting(defaultLight));
+//        this.ivMinimize.setEffect(new Lighting(defaultLight));
+//        this.ivSearch.setEffect(new Lighting(defaultLight));
 
         setMinimizeEvent();
         setMaximizeEvent();
@@ -356,13 +356,17 @@ public class MainController {
         this.ivPlay.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivPlay.setEffect(new Lighting(enterLight));
+                //ivPlay.setEffect(new Lighting(enterLight));
+                Image image = new Image("/ui/img/play_icon_on.png");
+                ivPlay.setImage(image);
             }
         });
         this.ivPlay.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivPlay.setEffect(new Lighting(defaultLight));
+                //ivPlay.setEffect(new Lighting(defaultLight));
+                Image image = new Image("/ui/img/play_icon_off.png");
+                ivPlay.setImage(image);
             }
         });
         this.ivPlay.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -370,7 +374,7 @@ public class MainController {
             public void handle(MouseEvent event) {
                 if (playStatus == MediaPlayer.Status.PAUSED) {
                     //Click PauseButton
-                    ivPlay.setImage(new Image("ui/img/play_icon.png"));
+                    ivPlay.setImage(new Image("ui/img/play_icon_on.png"));
                     player.play();
                     playStatus = MediaPlayer.Status.PLAYING;
                     return;
@@ -431,6 +435,7 @@ public class MainController {
             @Override
             public void handle(MouseEvent event) {
                 ivStop.setEffect(new Lighting(defaultLight));
+
             }
         });
         this.ivStop.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -830,7 +835,7 @@ public class MainController {
     protected void updateValues() {
 
         if(playStatus == MediaPlayer.Status.STOPPED){
-            ivPlay.setImage(new Image("ui/img/play_icon.png"));
+            ivPlay.setImage(new Image("ui/img/play_icon_on.png"));
         }
         if(playStatus == MediaPlayer.Status.PLAYING){
             ivPlay.setImage(new Image("ui/img/pause_icon.png"));

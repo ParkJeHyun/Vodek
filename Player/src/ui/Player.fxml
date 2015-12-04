@@ -142,7 +142,7 @@
                                     <children>
                                         <ImageView fx:id="ivList" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@img/list_icon.png" />
+                                                <Image url="@img/list_icon_off.png" />
                                             </image>
                                             <HBox.margin>
                                                 <Insets left="5.0" right="5.0" />
@@ -150,7 +150,7 @@
                                         </ImageView>
                                         <ImageView fx:id="ivSearchTab" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@img/search_tab.png" />
+                                                <Image url="@img/search_tab_off.png" />
                                             </image>
                                             <HBox.margin>
                                                 <Insets left="5.0" right="5.0" />
@@ -200,7 +200,7 @@
                                         </Label>
                                         <ImageView fx:id="ivSlow" fitHeight="15.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@img/slow_icon.png" />
+                                                <Image url="@img/slow_icon_off.png" />
                                             </image>
                                             <HBox.margin>
                                                 <Insets left="80.0" right="5.0" />
@@ -208,7 +208,7 @@
                                         </ImageView>
                                         <ImageView fx:id="ivPlay" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@img/play_icon.png" />
+                                                <Image url="@img/play_icon_off.png" />
                                             </image>
                                             <HBox.margin>
                                                 <Insets left="20.0" right="5.0" />
@@ -227,7 +227,7 @@
                                         </ImageView>
                                         <ImageView fx:id="ivFast" fitHeight="15.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
-                                                <Image url="@img/fast_icon.png" />
+                                                <Image url="@img/fast_icon_off.png" />
                                             </image>
                                             <HBox.margin>
                                                 <Insets left="20.0" right="5.0" />
