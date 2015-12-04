@@ -473,7 +473,7 @@ public class MainController {
                 if (playStatus == MediaPlayer.Status.PLAYING) {
                     playStatus = MediaPlayer.Status.STOPPED;
                     player.stop();
-                    ivPlay.setImage(imgPauseOn);
+                    ivPlay.setImage(imgPauseOff);
                     stage.setWidth(defaltStageWidth);
                     stage.setHeight(defaltStageHeight);
                 }
@@ -755,7 +755,7 @@ public class MainController {
             openTextFile();
             player.setAutoPlay(true);
             playStatus = MediaPlayer.Status.PLAYING;
-            ivPlay.setImage(imgPauseOn);
+            ivPlay.setImage(imgPauseOff);
             this.mvPlay.setMediaPlayer(player);
         }
     }
@@ -864,10 +864,10 @@ public class MainController {
     protected void updateValues() {
 
         if(playStatus == MediaPlayer.Status.STOPPED){
-            ivPlay.setImage(imgPlayOn);
+            ivPlay.setImage(imgPlayOff);
         }
         if(playStatus == MediaPlayer.Status.PLAYING){
-            ivPlay.setImage(imgPauseOn);
+            ivPlay.setImage(imgPauseOff);
         }
         if (lbCurrent != null && lbEnd != null && sdTime != null && sdVolume != null) {
             Platform.runLater(new Runnable() {
