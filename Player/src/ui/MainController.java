@@ -390,13 +390,25 @@ public class MainController {
         this.ivPlay.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivPlay.setImage(imgPlayOn);
+                if (playStatus == MediaPlayer.Status.PLAYING) {
+                    //Click PauseButton
+                    ivPlay.setImage(imgPauseOn);
+                }
+                else {
+                    ivPlay.setImage(imgPlayOn);
+                }
             }
         });
         this.ivPlay.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivPlay.setImage(imgPlayOff);
+                if (playStatus == MediaPlayer.Status.PLAYING) {
+                    //Click PauseButton
+                    ivPlay.setImage(imgPauseOff);
+                }
+                else {
+                    ivPlay.setImage(imgPlayOff);
+                }
             }
         });
         this.ivPlay.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -404,13 +416,13 @@ public class MainController {
             public void handle(MouseEvent event) {
                 if (playStatus == MediaPlayer.Status.PAUSED) {
                     //Click PauseButton
-                    ivPlay.setImage(imgPlayOn);
+                    ivPlay.setImage(imgPauseOn);
                     player.play();
                     playStatus = MediaPlayer.Status.PLAYING;
                     return;
                 } else if (playStatus == MediaPlayer.Status.PLAYING) {
                     //Click PlayButton
-                    ivPlay.setImage(imgPauseOff);
+                    ivPlay.setImage(imgPlayOn);
                     player.pause();
                     playStatus = MediaPlayer.Status.PAUSED;
                     return;
@@ -544,13 +556,23 @@ public class MainController {
         this.ivVolume.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivVolume.setImage(imgVolumeOn);
+                if(voulmeBtnFlag){
+                    ivVolume.setImage(imgMuteOn);
+                }
+                else {
+                    ivVolume.setImage(imgVolumeOn);
+                }
             }
         });
         this.ivVolume.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                ivVolume.setImage(imgVolumeOff);
+                if(voulmeBtnFlag){
+                    ivVolume.setImage(imgMuteOff);
+                }
+                else {
+                    ivVolume.setImage(imgVolumeOff);
+                }
             }
         });
         this.ivVolume.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -561,7 +583,7 @@ public class MainController {
                     if(player!=null) {
                         player.setMute(false);
                     }
-                    ivVolume.setImage(new Image("/ui/img/volume_icon.png"));
+                    ivVolume.setImage(new Image("/ui/img/volume_icon_on.png"));
 //            Image img = new Image(getClass().getResourceAsStream("not.png"));
 //            btVolume.setGraphic(new ImageView(img));
                 }
@@ -572,7 +594,7 @@ public class MainController {
                     }
                     ivVolume.setFitWidth(20.0);
                     ivVolume.setFitHeight(20.0);
-                    ivVolume.setImage(new Image("/ui/img/mute_icon.png"));
+                    ivVolume.setImage(new Image("/ui/img/mute_icon_on.png"));
 //            Image img = new Image(getClass().getResourceAsStream("not.png"));
 //            btVolume.setGraphic(new ImageView(img));
                 }
@@ -778,10 +800,10 @@ public class MainController {
             this.stage.setWidth(width + 20.0d);
         }
 
-        this.stage.setHeight(height + gpWindow.getHeight() + gpControl.getHeight() + 20.0d);
+        this.stage.setHeight(height + gpWindow.getHeight() + gpControl.getHeight() + 30.0d);
         setSearchTabSize();
         this.mvPlay.setFitHeight(height);
-        this.mvPlay.setFitWidth(width);
+        //this.mvPlay.setFitWidth(width);
     }
 
     public static List<String> getPlayListName(){
