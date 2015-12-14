@@ -118,19 +118,20 @@
                                 <RowConstraints minHeight="10.0" percentHeight="70.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <HBox fx:id="hbVolume" alignment="TOP_RIGHT" styleClass="bar" stylesheets="@css/application.css" GridPane.columnIndex="1" GridPane.hgrow="NEVER">
+                                <HBox fx:id="hbVolume" alignment="CENTER" styleClass="bar" stylesheets="@css/application.css" GridPane.columnIndex="1" GridPane.hgrow="NEVER">
+
                                     <children>
                                         <ImageView fx:id="ivVolume" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@img/volume_icon_off.png" />
                                             </image>
                                             <HBox.margin>
-                                                <Insets left="5.0" right="5.0" />
+                                                <Insets left="20" />
                                             </HBox.margin>
                                         </ImageView>
-                                        <Slider fx:id="sdVolume" styleClass="volume-slider" stylesheets="@css/application.css"  blockIncrement="5.0" value="100.0" HBox.hgrow="NEVER">
+                                        <Slider fx:id="sdVolume" blockIncrement="5.0" prefWidth="200" styleClass="volume-slider" stylesheets="@css/application.css" value="100.0" HBox.hgrow="NEVER">
                                              <HBox.margin>
-                                                <Insets top="2.0" />
+                                                <Insets left="10.0" top="2.0" />
                                              </HBox.margin>
                                         </Slider>
                                     </children>
@@ -145,7 +146,7 @@
                                                 <Image url="@img/list_icon_off.png" />
                                             </image>
                                             <HBox.margin>
-                                                <Insets left="5.0" right="5.0" />
+                                                <Insets left="25.0" right="10.0" />
                                             </HBox.margin>
                                         </ImageView>
                                         <ImageView fx:id="ivSearchTab" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
@@ -153,7 +154,7 @@
                                                 <Image url="@img/search_tab_off.png" />
                                             </image>
                                             <HBox.margin>
-                                                <Insets left="5.0" right="5.0" />
+                                                <Insets left="5.0" right="35.0" />
                                             </HBox.margin>
                                         </ImageView>
                                     </children>
@@ -161,15 +162,25 @@
                                         <Insets bottom="5.0" right="5.0" top="2.0" />
                                     </GridPane.margin>
                                 </HBox>
-                                <HBox prefHeight="100.0" prefWidth="200.0" styleClass="bar" stylesheets="@css/application.css" GridPane.hgrow="ALWAYS">
-                                    <StackPane HBox.hgrow="ALWAYS">
-                                        <ProgressBar fx:id="progressBar" prefWidth="800.0" progress="0.0">
+                                <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="2000.0" styleClass="bar" stylesheets="@css/application.css" GridPane.hgrow="ALWAYS">
 
-                                        </ProgressBar>
-                                        <Slider fx:id="sdTime"  styleClass="play-slider" stylesheets="@css/application.css">
-
-                                        </Slider>
-                                    </StackPane>
+                                   <children>
+                                       <StackPane HBox.hgrow="ALWAYS">
+                                          <children>
+                                              <ProgressBar fx:id="progressBar" prefWidth="2000.0" progress="0.0">
+                                       <StackPane.margin>
+                                          <Insets />
+                                       </StackPane.margin></ProgressBar>
+                                              <Slider fx:id="sdTime" styleClass="play-slider" stylesheets="@css/application.css">
+                                       <StackPane.margin>
+                                          <Insets />
+                                       </StackPane.margin></Slider>
+                                          </children>
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                                       </StackPane>
+                                   </children>
                                     <GridPane.margin>
                                         <Insets bottom="2.0" top="3.0" />
                                     </GridPane.margin>
@@ -177,63 +188,73 @@
                                         <Insets left="5.0" right="1.0" />
                                     </padding>
                                 </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="2000.0" GridPane.rowIndex="1">
                                     <children>
-                                        <Label fx:id="lbCurrent" text="00:00" HBox.hgrow="NEVER" textFill="#33B5E5">
-                                            <font>
-                                                <Font size="10.0" />
-                                            </font>
+                                      <HBox alignment="CENTER_LEFT" prefWidth="600">
+                                         <children>
+                                           <Label fx:id="lbCurrent" text="00:00" textFill="#33B5E5" HBox.hgrow="NEVER">
+                                               <font>
+                                                   <Font size="11.0" />
+                                               </font>
+                                    <HBox.margin>
+                                       <Insets left="5.0" />
+                                    </HBox.margin>
+                                           </Label>
+                                           <Label fx:id="lbEnd" styleClass="end_label-text" stylesheets="@css/application.css" text=" / 00:00" textFill="white" HBox.hgrow="NEVER">
+                                               <font>
+                                                   <Font size="11.0" />
+                                               </font>
+   
+                                           </Label>
+                                         </children>
+                                 <HBox.margin>
+                                    <Insets left="10.0" right="35.0" />
+                                 </HBox.margin>
+
+                                        </HBox>
+                                        <HBox alignment="CENTER_LEFT" prefWidth="680">
+                                           <children>
+                                           <ImageView fx:id="ivSlow" fitHeight="15.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                               <image>
+                                                   <Image url="@img/slow_icon_off.png" />
+                                               </image>
+
+                                           </ImageView>
+                                           <ImageView fx:id="ivPlay" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                               <image>
+                                                   <Image url="@img/play_icon_off.png" />
+                                               </image>
+                                               <HBox.margin>
+                                                   <Insets left="20.0" right="5.0" />
+                                               </HBox.margin>
+   
+                                           </ImageView>
+                                           <ImageView fx:id="ivStop" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                               <image>
+                                                   <Image url="@img/stop_icon_off.png" />
+                                               </image>
+                                               <HBox.margin>
+                                                   <Insets left="10.0" right="5.0" />
+                                               </HBox.margin>
+                                           </ImageView>
+                                           <ImageView fx:id="ivFast" fitHeight="15.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                               <image>
+                                                   <Image url="@img/fast_icon_off.png" />
+                                               </image>
+                                               <HBox.margin>
+                                                   <Insets left="20.0" right="5.0" />
+                                               </HBox.margin>
+                                           </ImageView>
+                                           </children>
+                                 <HBox.margin>
+                                    <Insets right="40.0" />
+                                 </HBox.margin>
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
-                                 <HBox.margin>
-                                    <Insets left="5.0" />
-                                 </HBox.margin>
-                                        </Label>
-                                        <Label fx:id="lbEnd" styleClass="end_label-text" stylesheets="@css/application.css" text=" / 00:00" HBox.hgrow="NEVER" textFill="white">
-                                            <font>
-                                                <Font size="10.0" />
-                                            </font>
-                                 <HBox.margin>
-                                    <Insets left="5.0" right="10.0" />
-                                 </HBox.margin>
-                                        </Label>
-                                        <ImageView fx:id="ivSlow" fitHeight="15.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@img/slow_icon_off.png" />
-                                            </image>
-                                            <HBox.margin>
-                                                <Insets left="80.0" right="5.0" />
-                                            </HBox.margin>
-                                        </ImageView>
-                                        <ImageView fx:id="ivPlay" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@img/play_icon_off.png" />
-                                            </image>
-                                            <HBox.margin>
-                                                <Insets left="20.0" right="5.0" />
-                                            </HBox.margin>
-                                 <effect>
-                                    <Bloom />
-                                 </effect>
-                                        </ImageView>
-                                        <ImageView fx:id="ivStop" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@img/stop_icon_off.png" />
-                                            </image>
-                                            <HBox.margin>
-                                                <Insets left="10.0" right="5.0" />
-                                            </HBox.margin>
-                                        </ImageView>
-                                        <ImageView fx:id="ivFast" fitHeight="15.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@img/fast_icon_off.png" />
-                                            </image>
-                                            <HBox.margin>
-                                                <Insets left="20.0" right="5.0" />
-                                            </HBox.margin>
-                                        </ImageView>
+                                        </HBox>
                                     </children>
+
                                 </HBox>
                             </children>
                         </GridPane>
